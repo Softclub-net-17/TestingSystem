@@ -6,7 +6,7 @@ namespace Domain.Entities;
 public class TestSession
 {
     public int Id { get; set; }
-    public int TopicId { get; set; }
+    public int? TopicId { get; set; }
     public int SectionId{get;set;}
     public int  UserId { get; set; } 
     public DateTime StartedAt { get; set; }

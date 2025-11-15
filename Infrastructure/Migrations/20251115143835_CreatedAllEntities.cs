@@ -72,19 +72,12 @@ namespace Infrastructure.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     TopicId = table.Column<int>(type: "integer", nullable: false),
-                    SectionId = table.Column<int>(type: "integer", nullable: false),
                     Text = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Questions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Questions_Sections_SectionId",
-                        column: x => x.SectionId,
-                        principalTable: "Sections",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Questions_Topics_TopicId",
                         column: x => x.TopicId,
@@ -157,11 +150,6 @@ namespace Infrastructure.Migrations
                 name: "IX_AnswerOptions_QuestionId",
                 table: "AnswerOptions",
                 column: "QuestionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Questions_SectionId",
-                table: "Questions",
-                column: "SectionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_TopicId",

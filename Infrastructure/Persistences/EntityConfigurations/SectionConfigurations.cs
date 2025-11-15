@@ -25,10 +25,6 @@ public class SectionConfigurations : IEntityTypeConfiguration<Section>
             .HasForeignKey(t => t.SectionId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasMany(x => x.Questions)
-            .WithOne(q => q.Section)
-            .HasForeignKey(q => q.SectionId)
-            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(x => x.TestSessions)
             .WithOne(ts => ts.Section)
