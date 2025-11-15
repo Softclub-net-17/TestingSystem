@@ -9,23 +9,19 @@ public class TestSessionConfigurations : IEntityTypeConfiguration<TestSession>
 {
     public void Configure(EntityTypeBuilder<TestSession> builder)
     {
-        // Таблица
         builder.ToTable("TestSessions");
 
-        // Первичный ключ
         builder.HasKey(x => x.Id);
 
-        // Свойства
         builder.Property(x => x.StartedAt)
             .IsRequired();
 
         builder.Property(x => x.CompletedAt)
-            .IsRequired(false); // null - если тест не закончен
+            .IsRequired(false);
 
         builder.Property(x => x.ScorePercent)
-            .HasColumnType("decimal(5,2)") 
+            .HasColumnType("decimal(5,2)")
             .IsRequired();
-            // 99.99 максимум — более чем достаточно
 
         builder.Property(x => x.CorrectAnswersCount)
             .IsRequired();
@@ -36,18 +32,35 @@ public class TestSessionConfigurations : IEntityTypeConfiguration<TestSession>
         builder.Property(x => x.IsPassed)
             .IsRequired();
 
+        builder.Property(x => x.TopicId)
+            .IsRequired();
+
+        builder.Property(x => x.SectionId)
+            .IsRequired();
+
+        builder.Property(x => x.UserId)
+            .IsRequired();
+
+        // TestSession → Topic
         builder.HasOne(x => x.Topic)
-            .WithMany()              
+            .WithMany(t => t.TestSessions)
             .HasForeignKey(x => x.TopicId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        // TestSession → Section
+        builder.HasOne(x => x.Section)
+            .WithMany(s => s.TestSessions)
+            .HasForeignKey(x => x.SectionId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // TestSession → User
         builder.HasOne(x => x.User)
-            .WithMany()                 
+            .WithMany(u => u.TestSessions)
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Cascade);
-            
 
         builder.HasIndex(x => x.TopicId);
+        builder.HasIndex(x => x.SectionId);
         builder.HasIndex(x => x.UserId);
         builder.HasIndex(x => new { x.UserId, x.TopicId });
       

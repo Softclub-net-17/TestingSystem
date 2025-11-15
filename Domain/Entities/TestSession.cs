@@ -7,6 +7,7 @@ public class TestSession
 {
     public int Id { get; set; }
     public int TopicId { get; set; }
+    public int SectionId{get;set;}
     public int  UserId { get; set; } 
     public DateTime StartedAt { get; set; }
     public DateTime? CompletedAt { get; set; }
@@ -17,5 +18,6 @@ public class TestSession
 
     public Topic Topic { get; set; } = null!;
     public User User{get;set;}=null!;
+    public Section Section{get;set;}=null!;
 
 }

@@ -13,5 +13,7 @@ public class Topic
 
     public Section Section{get;set;}=null!;
     public List<Question> Questions{get;set;}=[];
+    public List<TestSession> TestSessions{get;set;}=[];
+    
 
 }

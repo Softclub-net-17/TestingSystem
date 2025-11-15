@@ -10,15 +10,36 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder.ToTable("Users");
-        
-        builder.HasKey(user => user.Id);
-        
-        builder.Property(user => user.Email)
+
+        builder.HasKey(x => x.Id);
+
+        builder.Property(x => x.FullName)
             .IsRequired()
-            .HasMaxLength(200);
-        
-        builder.Property(user => user.PasswordHash)
+            .HasMaxLength(150);
+
+        builder.Property(x => x.BirthDate)
+            .HasColumnType("date")
             .IsRequired();
+
+        builder.Property(x => x.Email)
+            .IsRequired()
+            .HasMaxLength(256);
+
+        builder.Property(x => x.Role)
+            .IsRequired()
+            .HasConversion<int>();
+
+        builder.Property(x => x.PasswordHash)
+            .IsRequired()
+            .HasMaxLength(500);
+
+        builder.HasIndex(x => x.Email)
+            .IsUnique();
+
+        builder.HasMany(x => x.TestSessions)
+            .WithOne(ts => ts.User)
+            .HasForeignKey(ts => ts.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
         
         
     }

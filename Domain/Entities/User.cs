@@ -11,4 +11,6 @@ public class User
     public string Email { get; set; } = null!;
     public Role Role { get; set; }
     public string PasswordHash { get; set; } = null!;
+
+    public List<TestSession> TestSessions{get;set;}=[];
 }
