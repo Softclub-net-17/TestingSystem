@@ -5,6 +5,6 @@ namespace Domain.Enums;
 public enum Role
 {
     Admin,
-    Guest,
+    User,
     Author
 }
