@@ -8,6 +8,5 @@ namespace Application.Users.Commands;
 
 public class DeleteUserCommand(int id):ICommand<Result<string>>
 {
-    [JsonIgnore]
     public int Id{get;set;}=id;
 }

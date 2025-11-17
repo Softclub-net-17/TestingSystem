@@ -61,10 +61,9 @@ ICommandHandler<DeleteUserCommand, Result<string>> deleteCommandHandler
     }
     
     [HttpDelete("{id:int}")]
-    public async Task<IActionResult> DeleteAsync(int id, DeleteUserCommand command)
+    public async Task<IActionResult> DeleteAsync(int id)
     {
-        command.Id=id;
-        var result = await deleteCommandHandler.HandleAsync(command);
+        var result = await deleteCommandHandler.HandleAsync(new DeleteUserCommand(id));
 
         if (!result.IsSuccess)
         {

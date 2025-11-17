@@ -16,6 +16,9 @@ public class LoginValidator : IValidator<LoginCommand>
         if (string.IsNullOrWhiteSpace(instance.Password))
             validationResult.AddError("Password is required.");
         
+        if (!instance.Email.Contains('@'))
+            validationResult.AddError("Email is not in correct format.");
+        
         return validationResult;
     }
 }
