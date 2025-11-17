@@ -1,17 +1,20 @@
 using System;
+using System.Text.Json.Serialization;
+using System.Windows.Input;
+using Application.Common.Results;
+using Application.Interfaces;
 using Domain.Enums;
 
-namespace Domain.Entities;
+namespace Application.Users.Commands;
 
-public class User
+public class UpdateUserCommand:ICommand<Result<string>>
 {
+    [JsonIgnore]
     public int Id { get; set; }
     public string FullName { get; set; } = string.Empty;
     public DateOnly BirthDate { get; set; }
-    public string Email { get; set; } = null!;
     public Role Role { get; set; }
-    public string PasswordHash { get; set; } = null!;
     public bool IsActive{get;set;}
 
-    public List<TestSession> TestSessions{get;set;}=[];
+
 }
