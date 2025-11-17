@@ -14,6 +14,7 @@ public static class AuthMapper
             Email = command.Email,
             Role = Role.User,
             PasswordHash = passwordHash,
+            IsActive=true
         };
     }
 }
