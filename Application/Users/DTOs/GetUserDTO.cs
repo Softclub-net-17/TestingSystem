@@ -9,4 +9,5 @@ public class GetUserDTO
     public DateOnly BirthDate { get; set; }
     public string Email { get; set; } = null!;
     public Role Role { get; set; }
+    public bool IsActive{get;set;}
 }

@@ -19,7 +19,8 @@ public static class UserMapper
             FullName=user.FullName,
             Email=user.Email,
             BirthDate=user.BirthDate,
-            Role=user.Role
+            Role=user.Role,
+            IsActive=user.IsActive
         };
     }
    
@@ -31,7 +32,8 @@ public static class UserMapper
             FullName = u.FullName,
             Email = u.Email,
             Role = u.Role,
-            BirthDate = u.BirthDate
+            BirthDate = u.BirthDate,
+            IsActive=u.IsActive
         }).ToList();
     }
 

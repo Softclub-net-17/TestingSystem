@@ -39,8 +39,11 @@ public class UserRepository(ApplicationDbContext context) : IUserRepository
             query=query.Where(u=>u.BirthDate==filter.BirthDate);
         if(filter.Role.HasValue)
             query=query.Where(u=>u.Role==filter.Role);
-        if(filter.IsActive.HasValue)
-            query=query.Where(u=>u.IsActive==filter.IsActive);
+        if (filter.IsActive.HasValue)
+        {
+            var isActive= filter.IsActive.Value;
+            query=query.Where(u=>u.IsActive==isActive);
+        }
         var result= await query
         .Skip((filter.Page-1)*filter.Size)
         .Take(filter.Size)
