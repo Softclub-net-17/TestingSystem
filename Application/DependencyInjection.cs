@@ -1,9 +1,19 @@
 using System;
+using Application.AnswerOption.Commands;
+using Application.AnswerOption.DTOs;
+using Application.AnswerOption.Handlers;
+using Application.AnswerOption.Queries;
+using Application.AnswerOption.Validators;
 using Application.Auth.Commands;
 using Application.Auth.Handlers;
 using Application.Auth.Validators;
 using Application.Common.Results;
 using Application.Interfaces;
+using Application.Questions.Commands;
+using Application.Questions.DTOs;
+using Application.Questions.Handlers;
+using Application.Questions.Queries;
+using Application.Questions.Validators;
 using Application.Sections.Commands;
 using Application.Sections.DTOs;
 using Application.Sections.Handlers;
@@ -40,6 +50,21 @@ public static class DependencyInjection
         services.AddScoped<ICommandHandler<UpdateUserCommand, Result<string>>, UpdateUserCommandHandler>();
         services.AddScoped<ICommandHandler<DeleteUserCommand, Result<string>>, DeleteUserCommandHandler>();
 
+        //Questions
+        services.AddScoped<IQueryHandler<GetQuestionsQuery, Result<List<GetQuestionDto>>>,GetQuestionsQueryHandler>();
+        services.AddScoped<IQueryHandler<GetActiveQuestionsQuery, Result<List<GetQuestionDto>>>,GetActiveQuestionsQueryHandler>();
+        services.AddScoped<IQueryHandler<GetQuestionByIdQuery,Result<GetQuestionDto>>,GetQuestionByIdQueryHandler>();
+        services.AddScoped<ICommandHandler<CreateQuestionCommand, Result<string>>, CreateQuestionCommandHandler>();
+        services.AddScoped<ICommandHandler<UpdateQuestionCommand, Result<string>>, UpdateQuestionCommandHandler>();
+        services.AddScoped<ICommandHandler<ChangeQuestionStatusCommand, Result<string>>, ChangeQuestionStatusCommandHandler>();
+        
+        //AnswerOptions
+        services.AddScoped<IQueryHandler<GetAnswerOptionByIdQuery, Result<GetAnswerOptionDto>>, GetAnswerOptionByIdQueryHandler>();
+        services.AddScoped<IQueryHandler<GetAnswerOptionByQuestionIdQuery, Result<List<GetAnswerOptionDto>>>, GetAnswerOptionByQuestionIdQueryHandler>();
+
+        services.AddScoped<ICommandHandler<CreateAnswerOptionCommand, Result<string>>, CreateAnswerOptionCommandHandler>();
+        services.AddScoped<ICommandHandler<UpdateAnswerOptionCommand, Result<string>>, UpdateAnswerOptionCommandHandler>();
+        
         //Section
         services.AddScoped<IQueryHandler<GetSectionsQuery, PagedResult<List<GetSectionDTO>>>,GetSectionsQueryHandler>();
         services.AddScoped<IQueryHandler<GetActiveSectionsQuery, Result<List<GetSectionDTO>>>,GetActiveSectionsQueryHandler>();
@@ -69,6 +94,14 @@ public static class DependencyInjection
         services.AddScoped<IValidator<CreateSectionCommand>, CreateSectionValidator>();
         services.AddScoped<IValidator<UpdateSectionCommand>,UpdateSectionValidator>();
 
+        //Validators
+        services.AddScoped<IValidator<CreateAnswerOptionCommand>, CreateAnswerOptionValidator>();
+        services.AddScoped<IValidator<UpdateAnswerOptionCommand>, UpdateAnswerOptionValidator>();
+        
+        //Questions
+        services.AddScoped<IValidator<CreateQuestionCommand>, CreateQuestionValidator>();
+        services.AddScoped<IValidator<UpdateQuestionCommand>, UpdateQuestionValidator>();
+        
         //Topics
         services.AddScoped<IValidator<CreateTopicCommand>,CreateTopicValidator>();
         services.AddScoped<IValidator<UpdateTopicCommand>, UpdateTopicValidator>();
