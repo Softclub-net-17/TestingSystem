@@ -11,7 +11,7 @@ public class QuestionRepository(ApplicationDbContext context) : IQuestionReposit
         return await context.Questions.FirstOrDefaultAsync(s=>s.Id==id);
     }
 
-    public async Task<List<Question>> GetByTopicAsync(int topicId)
+    public async Task<List<Question>> GetByTopicIdAsync(int topicId)
     {
         return await context.Questions.Where(q=>q.TopicId==topicId).ToListAsync();
     }

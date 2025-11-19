@@ -8,6 +8,7 @@ namespace Application.AnswerOption.Handlers;
 
 public class UpdateAnswerOptionCommandHandler(
     IAnswerOptionRepository answerOptionRepository,
+    IQuestionRepository questionRepository,
     IUnitOfWork unitOfWork,
     IValidator<UpdateAnswerOptionCommand> validator)
     : ICommandHandler<UpdateAnswerOptionCommand, Result<string>>
@@ -22,7 +23,11 @@ public class UpdateAnswerOptionCommandHandler(
         if (exists == null)
             return Result<string>.Fail("Answer option to update doesn't exist", ErrorType.NotFound);
 
-        var noChange = exists.Text.Equals(command.Text.Trim(), StringComparison.CurrentCultureIgnoreCase)
+        var questionExists = await questionRepository.GetByIdAsync(command.QuestionId);
+        if (questionExists == null)
+            return Result<string>.Fail("Question doesn't exist", ErrorType.NotFound);
+        
+        var noChange = exists.QuestionId == command.QuestionId && exists.Text.Equals(command.Text.Trim(), StringComparison.CurrentCultureIgnoreCase)
                        && exists.IsCorrect == command.IsCorrect;
         if (noChange)
             return Result<string>.Fail("No changes were made", ErrorType.NoChange);

@@ -3,9 +3,8 @@ using Application.Interfaces;
 
 namespace Application.Questions.Commands;
 
-public class ChangeQuestionStatusCommand(int id, bool status):ICommand<Result<string>>
+public class ChangeQuestionStatusCommand(int id, bool isActive):ICommand<Result<string>>
 {
     public int Id { get; set; } = id;
-    public bool Status { get; set; } = status;
-
+    public bool IsActive { get; set; } = isActive;
 }

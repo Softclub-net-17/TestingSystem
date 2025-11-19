@@ -5,7 +5,7 @@ using Domain.Entities;
 
 namespace Application.Questions.Queries;
 
-public class GetActiveQuestionsQuery : IQuery<Result<List<GetQuestionDto>>>
+public class GetActiveQuestionsQuery : IQuery<Result<List<GetActiveQuestionsDto>>>, IQuery<Result<List<GetQuestionDto>>>
 {
     
     

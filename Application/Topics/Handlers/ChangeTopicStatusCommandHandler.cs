@@ -17,7 +17,7 @@ public class ChangeTopicStatusCommandHandler(
 {
     public async Task<Result<string>> HandleAsync(ChangeTopicStatusCommand command)
     {
-        var exists=await topicRepository.GetByIdItemAsync(command.Id);
+        var exists=await topicRepository.GetItemByIdAsync(command.Id);
         if(exists==null)
             return Result<string>.Fail($"Topic with given id: {command.Id} not found",ErrorType.NotFound);
 
@@ -29,7 +29,7 @@ public class ChangeTopicStatusCommandHandler(
         
         exists.ChangeStatus(command.Status);
         await unitOfWork.SaveChangesAsync();
-        return Result<string>.Ok(null,"Status changed successfully!");
+        return Result<string>.Ok(null,"IsActive changed successfully!");
             
     }
 }

@@ -15,6 +15,7 @@ public static class AnswerOptionMapper
         };
     }
     
+    
     public static GetAnswerOptionDto ToDto(this Domain.Entities.AnswerOption option)
     {
         return new GetAnswerOptionDto
@@ -33,6 +34,7 @@ public static class AnswerOptionMapper
     
     public static void MapFrom(this UpdateAnswerOptionCommand command, Domain.Entities.AnswerOption option)
     {
+        option.QuestionId = command.QuestionId;
         option.Text = command.Text;
         option.IsCorrect = command.IsCorrect;
     }

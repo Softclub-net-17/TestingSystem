@@ -20,4 +20,10 @@ public class AnswerOptionRepository(ApplicationDbContext context) : IAnswerOptio
     {
         return await context.AnswerOptions.FirstOrDefaultAsync(q=>q.Id==id);
     }
+
+    public Task DeleteAsync(AnswerOption option)
+    {
+        context.AnswerOptions.Remove(option);
+        return Task.CompletedTask;
+    }
 }

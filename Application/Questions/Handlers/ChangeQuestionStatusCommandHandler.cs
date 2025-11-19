@@ -16,17 +16,12 @@ public class ChangeQuestionStatusCommandHandler(
         var exists = await questionRepository.GetByIdAsync(command.Id);
         if(exists==null)
             return Result<string>.Fail($"There is no such question by {command.Id} id", ErrorType.NotFound);
-
-        if (command.Status)
-        {
-            var activeTopic = await topicRepository.GetByIdItemAsync(exists.TopicId);
-            if(!activeTopic!.IsPublished)
-                return Result<string>.Fail("Cannot change the question of unpublished topic", ErrorType.Conflict);
-            
-        }
         
-        exists.ChangeStatus(command.Status);
+        if(exists.IsActive == command.IsActive)
+            return Result<string>.Fail("You didn't change the status", ErrorType.Validation);
+        
+        exists.ChangeStatus(command.IsActive);
         await unitOfWork.SaveChangesAsync();
-        return Result<string>.Ok(null,"Status changed successfully!");
+        return Result<string>.Ok(null,"IsActive changed successfully!");
     }
 }

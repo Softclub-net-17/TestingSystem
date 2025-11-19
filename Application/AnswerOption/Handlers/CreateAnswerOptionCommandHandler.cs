@@ -24,7 +24,12 @@ public class CreateAnswerOptionCommandHandler(
         var questionExists = await questionRepository.GetByIdAsync(command.QuestionId);
         if (questionExists == null)
             return Result<string>.Fail($"Question with given id : {command.QuestionId} doesn't exist");
-
+        
+        var hasCorrect = questionExists.AnswerOptions.Any(a => a.IsCorrect);
+        
+        if(hasCorrect && command.IsCorrect)
+            return Result<string>.Fail("Question is already correct",  ErrorType.Validation);
+        
         var newAnswerOption = command.ToEntity();
 
         await answerOptionRepository.CreateAsync(newAnswerOption);

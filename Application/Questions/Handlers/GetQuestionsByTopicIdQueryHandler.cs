@@ -13,12 +13,12 @@ public class GetQuestionsByTopicIdQueryHandler(
 {
     public async Task<Result<List<GetQuestionDto>>> HandleAsync(GetQuestionsByTopicIdQuery query)
     {
-        var topicExists= await topicRepository.GetByIdItemAsync(query.TopicId);
+        var topicExists= await topicRepository.GetItemByIdAsync(query.TopicId);
         if(topicExists==null)
             return Result<List<GetQuestionDto>>
                 .Fail($"Topic with given id: {query.TopicId} not found",ErrorType.NotFound);
         
-        var response= await questionRepository.GetByTopicAsync(query.TopicId);
+        var response= await questionRepository.GetByTopicIdAsync(query.TopicId);
         var items= response.ToDto();
         return Result<List<GetQuestionDto>>.Ok(items);
     }

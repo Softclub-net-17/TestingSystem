@@ -12,7 +12,7 @@ public static class QuestionMapper
         {
             TopicId = command.TopicId,
             Text = command.Text,
-            IsActive = true
+            IsActive = false
         };
     }
 
@@ -24,6 +24,16 @@ public static class QuestionMapper
             TopicId = question.TopicId, 
             Text = question.Text, 
             IsActive = question.IsActive
+        }).ToList();
+    }
+    
+    public static List<GetActiveQuestionsDto> ToUserDto(this List<Question> questions)
+    {
+        return questions.Select(question => new GetActiveQuestionsDto()
+        { 
+            Id = question.Id, 
+            TopicId = question.TopicId, 
+            Text = question.Text
         }).ToList();
     }
     

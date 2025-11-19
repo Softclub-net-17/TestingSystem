@@ -21,13 +21,9 @@ public class CreateQuestionCommandHandler(
                 string.Join("; ", validationResult.Errors.Select(e => e)), ErrorType.Validation);
         }
 
-        var topicExists= await topicRepository.GetByIdItemAsync(command.TopicId);
+        var topicExists= await topicRepository.GetItemByIdAsync(command.TopicId);
         if(topicExists==null)
             return Result<string>.Fail($"Section with given id : {command.TopicId} doesnt exist");
-        
-        if(!topicExists.IsPublished)
-            return Result<string>.Fail("Cannot create topic to inactive section",ErrorType.Conflict);
-        
         
         var newQuestion=command.ToEntity();
         await questionRepository.Create(newQuestion);

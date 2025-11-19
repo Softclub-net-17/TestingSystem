@@ -12,7 +12,7 @@ public class GetTopicByIdQueryHandler(ITopicRepository topicRepository) : IQuery
 {
     public async Task<Result<GetTopicDto>> HandleAsync(GetTopicByIdQuery query)
     {
-        var exists=await topicRepository.GetByIdItemAsync(query.Id);
+        var exists=await topicRepository.GetItemByIdAsync(query.Id);
         if(exists==null)
             return Result<GetTopicDto>.Fail($"Topic with given id: {query.Id} not found",ErrorType.NotFound);
         var topic=exists.ToDto();

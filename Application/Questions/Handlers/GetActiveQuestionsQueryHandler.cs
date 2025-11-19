@@ -9,12 +9,12 @@ using Domain.Interfaces;
 namespace Application.Questions.Handlers;
 
 public class GetActiveQuestionsQueryHandler(IQuestionRepository questionRepository)
-    : IQueryHandler<GetActiveQuestionsQuery, Result<List<GetQuestionDto>>>
+    : IQueryHandler<GetActiveQuestionsQuery, Result<List<GetActiveQuestionsDto>>>, IQuery<Result<List<GetQuestionDto>>>
 {
-    public async Task<Result<List<GetQuestionDto>>> HandleAsync(GetActiveQuestionsQuery query)
+    public async Task<Result<List<GetActiveQuestionsDto>>> HandleAsync(GetActiveQuestionsQuery query)
     {
         var response= await questionRepository.GetActiveItemsAsync();
-        var items= response.ToDto();
-        return Result<List<GetQuestionDto>>.Ok(items);
+        var items= response.ToUserDto();
+        return Result<List<GetActiveQuestionsDto>>.Ok(items);
     }
 }
