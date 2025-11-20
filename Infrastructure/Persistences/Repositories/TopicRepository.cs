@@ -18,7 +18,7 @@ public class TopicRepository(ApplicationDbContext context) : ITopicRepository
         return await context.Topics.Where(t=>t.IsPublished).ToListAsync();
     }
 
-    public async Task<Topic?> GetByIdItemAsync(int id)
+    public async Task<Topic?> GetItemByIdAsync(int id)
     {
         return await context.Topics.FirstOrDefaultAsync(s=>s.Id==id);
         

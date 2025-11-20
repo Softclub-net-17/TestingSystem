@@ -17,7 +17,7 @@ public class ChangeSectionStatusCommandHandler(ISectionRepository sectionReposit
             return Result<string>.Fail($"Section with this id : {command.Id} not found",ErrorType.NotFound);
         exists.ChangeStatus(command.Status);
         await unitOfWork.SaveChangesAsync();
-        return Result<string>.Ok(null, "Status changed successfully!");
+        return Result<string>.Ok(null, "IsActive changed successfully!");
     }
 }
 

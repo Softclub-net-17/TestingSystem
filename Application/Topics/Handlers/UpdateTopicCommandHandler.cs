@@ -19,7 +19,7 @@ public class UpdateTopicCommandHandler(
         var validationResult= validator.Validate(command);
         if(!validationResult.IsValid)
             return Result<string>.Fail(string.Join("; ", validationResult.Errors.Select(e => e)), ErrorType.Validation);
-        var exists=await topicRepository.GetByIdItemAsync(command.Id);
+        var exists=await topicRepository.GetItemByIdAsync(command.Id);
         if(exists==null)
             return Result<string>.Fail("Topic to update doesnt exist");
        
