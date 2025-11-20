@@ -65,4 +65,21 @@ public static class QuestionMapper
         question.TopicId = command.TopicId;
         question.Text = command.Text;
     }
+    
+    public static GetQuestionWithOptionsDto ToWithOptionsDto(this Question question, List<Domain.Entities.AnswerOption> answerOptions)
+    {
+        return new GetQuestionWithOptionsDto
+        {
+            Id = question.Id,
+            TopicId = question.TopicId,
+            Text = question.Text,
+            IsActive = question.IsActive,
+            AnswerOptions = answerOptions.Select(ao => new GetAnswerOptionDto
+            {
+                Id = ao.Id,
+                Text = ao.Text,
+                IsCorrect = ao.IsCorrect
+            }).ToList()
+        };
+    }
 }

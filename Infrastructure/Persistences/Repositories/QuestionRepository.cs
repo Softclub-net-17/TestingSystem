@@ -34,4 +34,18 @@ public class QuestionRepository(ApplicationDbContext context) : IQuestionReposit
     {
         await context.Questions.AddAsync(question);
     }
+
+    
+    // Returns 10 random questions for a given section id
+    public async Task<List<Question>> GetRandomedTestsBySectionIdAsync(int sectionId)
+    {
+        return await context.Questions
+            .Where(q=> q.Topic.SectionId == sectionId
+                                && q.IsActive
+                                && q.Topic.IsPublished)
+            .OrderBy(q => EF.Functions.Random())
+            .Take(10)
+            .AsNoTracking()
+            .ToListAsync();
+    }
 }

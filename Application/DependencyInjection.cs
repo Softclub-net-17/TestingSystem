@@ -55,6 +55,8 @@ public static class DependencyInjection
         services.AddScoped<IQueryHandler<GetActiveQuestionsQuery, Result<List<GetActiveQuestionsDto>>>,GetActiveQuestionsQueryHandler>();
         services.AddScoped<IQueryHandler<GetQuestionsByTopicIdQuery, Result<List<GetQuestionDto>>>,GetQuestionsByTopicIdQueryHandler>();
         services.AddScoped<IQueryHandler<GetQuestionByIdQuery,Result<GetQuestionDto>>,GetQuestionByIdQueryHandler>();
+        services.AddScoped<IQueryHandler<GetTestBySectionIdWithAnswerOptionsQuery, Result<List<GetQuestionWithOptionsDto>>>, GetTestBySectionIdWithAnswerOptionsQueryHandler>();
+
         services.AddScoped<ICommandHandler<CreateQuestionCommand, Result<string>>, CreateQuestionCommandHandler>();
         services.AddScoped<ICommandHandler<UpdateQuestionCommand, Result<string>>, UpdateQuestionCommandHandler>();
         services.AddScoped<ICommandHandler<ChangeQuestionStatusCommand, Result<string>>, ChangeQuestionStatusCommandHandler>();

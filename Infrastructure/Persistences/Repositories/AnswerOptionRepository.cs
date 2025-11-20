@@ -26,4 +26,14 @@ public class AnswerOptionRepository(ApplicationDbContext context) : IAnswerOptio
         context.AnswerOptions.Remove(option);
         return Task.CompletedTask;
     }
+
+    // Returns in random order anser options by the question id
+    public async Task<List<AnswerOption>> GetRandomedAnswerOptionsByQuestionIdAsync(int questionId)
+    {
+        return await context.AnswerOptions
+            .Where(ao => ao.QuestionId == questionId)
+            .OrderBy(ao => EF.Functions.Random())
+            .AsNoTracking()
+            .ToListAsync();
+    }
 }

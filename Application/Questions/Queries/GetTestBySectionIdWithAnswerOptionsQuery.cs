@@ -1,0 +1,11 @@
+﻿using Application.Common.Results;
+using Application.Interfaces;
+using Application.Questions.DTOs;
+
+namespace Application.Questions.Queries;
+
+public class GetTestBySectionIdWithAnswerOptionsQuery(int sectionId) 
+    : IQuery<Result<List<GetQuestionWithOptionsDto>>>
+{
+    public int SectionId { get; set; } = sectionId;
+}
