@@ -8,7 +8,7 @@ public class QuestionRepository(ApplicationDbContext context) : IQuestionReposit
 {
     public async Task<Question?> GetByIdAsync(int id)
     {
-        return await context.Questions.FirstOrDefaultAsync(s=>s.Id==id);
+        return await context.Questions.Include(q=>q.AnswerOptions).FirstOrDefaultAsync(s=>s.Id==id);
     }
 
     public async Task<List<Question>> GetByTopicIdAsync(int topicId)
