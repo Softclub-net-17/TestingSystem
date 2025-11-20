@@ -10,5 +10,4 @@ public class UpdateQuestionCommand :  ICommand<Result<string>>
     public int Id{get;set;}
     public int TopicId{get;set;}
     public string Text{get;set;}=string.Empty;
-    public bool IsActive{get;set;}
 }

@@ -13,13 +13,17 @@ public class QuestionRepository(ApplicationDbContext context) : IQuestionReposit
 
     public async Task<List<Question>> GetByTopicIdAsync(int topicId)
     {
-        return await context.Questions.Where(q=>q.TopicId==topicId).ToListAsync();
+        return await context.Questions.Include(q=>q.AnswerOptions).Where(q=>q.TopicId==topicId).ToListAsync();
     }
 
     public async Task<List<Question>> GetActiveItemsAsync()
     {
-        return await context.Questions.Where(s => s.IsActive).ToListAsync();
+        return await context.Questions
+        .Include(q => q.AnswerOptions)
+        .Where(q => q.IsActive)
+        .ToListAsync();
     }
+
     
     public async Task<List<Question>> GetAllAsync()
     {

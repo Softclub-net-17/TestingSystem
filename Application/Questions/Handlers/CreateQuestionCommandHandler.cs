@@ -16,19 +16,17 @@ public class CreateQuestionCommandHandler(
     {
         var validationResult= validator.Validate(command);
         if (!validationResult.IsValid)
-        {
-            return Result<string>.Fail(
-                string.Join("; ", validationResult.Errors.Select(e => e)), ErrorType.Validation);
-        }
-
+            return Result<string>.Fail(string.Join("; ", validationResult.Errors.Select(e => e)), ErrorType.Validation);
+        
         var topicExists= await topicRepository.GetItemByIdAsync(command.TopicId);
         if(topicExists==null)
-            return Result<string>.Fail($"Section with given id : {command.TopicId} doesnt exist");
+            return Result<string>.Fail($"Topic with given id : {command.TopicId} doesnt exist");
         
         var newQuestion=command.ToEntity();
+
         await questionRepository.Create(newQuestion);
         await unitOfWork.SaveChangesAsync();
         
-        return Result<string>.Ok(null,"Topic created successfully!");
+        return Result<string>.Ok(null,"Question created successfully!");
     }
 }

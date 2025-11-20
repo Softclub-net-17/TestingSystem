@@ -18,8 +18,8 @@ public class GetQuestionsByTopicIdQueryHandler(
             return Result<List<GetQuestionDto>>
                 .Fail($"Topic with given id: {query.TopicId} not found",ErrorType.NotFound);
         
-        var response= await questionRepository.GetByTopicIdAsync(query.TopicId);
-        var items= response.ToDto();
+        var questions= await questionRepository.GetByTopicIdAsync(query.TopicId);
+        var items= questions.ToDto();
         return Result<List<GetQuestionDto>>.Ok(items);
     }
 }

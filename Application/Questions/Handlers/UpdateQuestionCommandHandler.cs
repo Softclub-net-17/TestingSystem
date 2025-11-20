@@ -22,13 +22,13 @@ public class UpdateQuestionCommandHandler(
         
         var exists=await questionRepository.GetByIdAsync(command.Id);
         if(exists==null)
-            return Result<string>.Fail("Topic to update doesnt exist");
+            return Result<string>.Fail("Question to update doesnt exist");
        
         var topicExists= await topicRepository.GetItemByIdAsync(command.TopicId);
         if(topicExists==null)
             return Result<string>.Fail($"Topic with given id : {command.TopicId} doesnt exist");
         
-        var noChange = exists.IsActive == command.IsActive && exists.TopicId == command.TopicId
+        var noChange = exists.TopicId == command.TopicId
                        && exists.Text.Equals(command.Text.Trim(), StringComparison.CurrentCultureIgnoreCase);
         if(noChange)
             return Result<string>.Fail("No changes were made",ErrorType.NoChange);

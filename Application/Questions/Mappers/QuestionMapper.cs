@@ -1,4 +1,5 @@
-﻿using Application.Questions.Commands;
+﻿using Application.AnswerOption.DTOs;
+using Application.Questions.Commands;
 using Application.Questions.DTOs;
 using Domain.Entities;
 
@@ -29,11 +30,17 @@ public static class QuestionMapper
     
     public static List<GetActiveQuestionsDto> ToUserDto(this List<Question> questions)
     {
-        return questions.Select(question => new GetActiveQuestionsDto()
-        { 
-            Id = question.Id, 
-            TopicId = question.TopicId, 
-            Text = question.Text
+        return questions.Select(q => new GetActiveQuestionsDto
+        {
+            Id = q.Id,
+            TopicId = q.TopicId,
+            Text = q.Text,
+            Answers = q.AnswerOptions.Select(a => new GetAnswerOptionsForUserDto
+            {
+                Id = a.Id,
+                QuestionId = a.QuestionId,
+                Text = a.Text
+            }).ToList()
         }).ToList();
     }
     

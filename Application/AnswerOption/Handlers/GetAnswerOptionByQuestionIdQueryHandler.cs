@@ -16,10 +16,8 @@ public class GetAnswerOptionByQuestionIdQueryHandler(
     {
         var questionExists = await questionRepository.GetByIdAsync(query.QuestionId);
         if (questionExists == null)
-        {
-            return Result<List<GetAnswerOptionDto>>
-                .Fail($"Question with given id: {query.QuestionId} not found", ErrorType.NotFound);
-        }
+            return Result<List<GetAnswerOptionDto>>.Fail($"Question with given id: {query.QuestionId} not found", ErrorType.NotFound);
+        
 
         var response = await answerOptionRepository.GetByQuestionIdAsync(query.QuestionId);
         var items = response.ToDto();

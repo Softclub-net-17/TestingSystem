@@ -13,8 +13,8 @@ public class GetActiveQuestionsQueryHandler(IQuestionRepository questionReposito
 {
     public async Task<Result<List<GetActiveQuestionsDto>>> HandleAsync(GetActiveQuestionsQuery query)
     {
-        var response= await questionRepository.GetActiveItemsAsync();
-        var items= response.ToUserDto();
+        var questions= await questionRepository.GetActiveItemsAsync();
+        var items= questions.ToUserDto();
         return Result<List<GetActiveQuestionsDto>>.Ok(items);
     }
 }

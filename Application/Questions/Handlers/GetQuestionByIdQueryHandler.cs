@@ -16,7 +16,7 @@ public class GetQuestionByIdQueryHandler(IQuestionRepository questionRepository)
         
         if(exists==null)
             return Result<GetQuestionDto>
-                .Fail($"Topic with given id: {query.Id} not found",ErrorType.NotFound);
+                .Fail($"Question with given id: {query.Id} not found",ErrorType.NotFound);
         
         var question = exists.ToDto();
         return Result<GetQuestionDto>.Ok(question);

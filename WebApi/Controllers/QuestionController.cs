@@ -17,6 +17,7 @@ public class QuestionController(
     ICommandHandler<UpdateQuestionCommand, Result<string>> updateQuestionCommandHandler,
     ICommandHandler<ChangeQuestionStatusCommand, Result<string>> changeQuestionStatusCommandHandler,
     IQueryHandler<GetActiveQuestionsQuery, Result<List<GetQuestionDto>>> getActiveQuestionsQueryHandler,
+    IQueryHandler<GetQuestionsByTopicIdQuery, Result<List<GetQuestionDto>>> getQuestionsByTopicIdQueryHandler,
     IQueryHandler<GetQuestionByIdQuery, Result<GetQuestionDto>> getQuestionByIdQueryHandler,
     IQueryHandler<GetQuestionsQuery, Result<List<GetQuestionDto>>> getQuestionsQueryHandler)
         : ControllerBase
@@ -27,6 +28,17 @@ public class QuestionController(
     public async Task<IActionResult> GetItemsAsync([FromQuery] GetQuestionsQuery query)
     {
         var result = await getQuestionsQueryHandler.HandleAsync(query);
+
+        if (!result.IsSuccess)
+            return HandleError(result);
+
+        return Ok(result.Data);
+    }
+    [Authorize(Roles = "Admin")]
+    [HttpGet("by-topicId {id:int}")]
+    public async Task<IActionResult> GetItemsAsync(int id)
+    {
+        var result = await getQuestionsByTopicIdQueryHandler.HandleAsync(new GetQuestionsByTopicIdQuery(id));
 
         if (!result.IsSuccess)
             return HandleError(result);

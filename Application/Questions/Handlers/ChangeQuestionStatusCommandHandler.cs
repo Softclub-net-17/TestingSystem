@@ -8,7 +8,6 @@ namespace Application.Questions.Handlers;
 
 public class ChangeQuestionStatusCommandHandler(
     IQuestionRepository  questionRepository,
-    ITopicRepository  topicRepository,
     IUnitOfWork unitOfWork) : ICommandHandler<ChangeQuestionStatusCommand, Result<string>>
 {
     public async Task<Result<string>> HandleAsync(ChangeQuestionStatusCommand command)
@@ -22,6 +21,6 @@ public class ChangeQuestionStatusCommandHandler(
         
         exists.ChangeStatus(command.IsActive);
         await unitOfWork.SaveChangesAsync();
-        return Result<string>.Ok(null,"IsActive changed successfully!");
+        return Result<string>.Ok(null,"Status changed successfully!");
     }
 }

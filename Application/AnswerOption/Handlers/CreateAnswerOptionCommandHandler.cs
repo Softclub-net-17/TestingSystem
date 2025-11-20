@@ -28,7 +28,11 @@ public class CreateAnswerOptionCommandHandler(
         var hasCorrect = questionExists.AnswerOptions.Any(a => a.IsCorrect);
         
         if(hasCorrect && command.IsCorrect)
-            return Result<string>.Fail("Question is already correct",  ErrorType.Validation);
+            return Result<string>.Fail("Quetion already has a correct answer",  ErrorType.Validation);
+        
+        var sameText= questionExists.AnswerOptions.Any(a => a.Text.Equals(command.Text.Trim(), StringComparison.CurrentCultureIgnoreCase));
+        if(sameText)
+            return Result<string>.Fail("Already have this choise",ErrorType.Conflict);
         
         var newAnswerOption = command.ToEntity();
 

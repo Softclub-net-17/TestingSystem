@@ -31,6 +31,21 @@ public static class AnswerOptionMapper
     {
         return options.Select(o => o.ToDto()).ToList();
     }
+
+    public static GetAnswerOptionsForUserDto ToUserDto(this Domain.Entities.AnswerOption option)
+    {
+        return new GetAnswerOptionsForUserDto
+        {
+            Id = option.Id,
+            QuestionId = option.QuestionId,
+            Text = option.Text
+        };
+    }
+
+    public static List<GetAnswerOptionsForUserDto> ToUSerDto(this List<Domain.Entities.AnswerOption> options)
+    {
+        return options.Select(o => o.ToUserDto()).ToList();
+    }
     
     public static void MapFrom(this UpdateAnswerOptionCommand command, Domain.Entities.AnswerOption option)
     {
