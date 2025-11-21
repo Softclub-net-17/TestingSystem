@@ -49,4 +49,16 @@ public class SectionRepository(ApplicationDbContext context) : ISectionRepositor
 
     return (items, totalCount);
 }
+    public async Task<List<Question>> GetRandomQuestionsAsync(int sectionId)
+    {
+        return await context.Questions
+            .Include(q=>q.Topic)
+            .Where(q=> q.Topic.SectionId == sectionId
+                       && q.IsActive
+                       && q.Topic.IsPublished)
+            .OrderBy(q => EF.Functions.Random())
+            .Take(10)
+            .AsNoTracking()
+            .ToListAsync();
+    }
 }

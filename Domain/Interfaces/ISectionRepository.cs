@@ -11,5 +11,7 @@ public interface ISectionRepository
     public Task<Section?> GetByIdAsync(int id);
     public Task CreateItemsAsync(Section section);
     public Task<Section?> GetItemByNameAsync(string name);
+    Task<List<Question>> GetRandomQuestionsAsync(int sectionId);
+    
 
 }
