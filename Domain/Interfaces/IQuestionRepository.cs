@@ -10,5 +10,4 @@ public interface IQuestionRepository
     Task<List<Question>> GetAllAsync();
     Task Create(Question question);
 
-    Task<List<Question>> GetRandomedTestsBySectionIdAsync(int sectionId);
 }

@@ -19,16 +19,15 @@ public class QuestionController(
     IQueryHandler<GetActiveQuestionsQuery, Result<List<GetActiveQuestionsDto>>> getActiveQuestionsQueryHandler,
     IQueryHandler<GetQuestionsByTopicIdQuery, Result<List<GetQuestionDto>>> getQuestionsByTopicIdQueryHandler,
     IQueryHandler<GetQuestionByIdQuery, Result<GetQuestionDto>> getQuestionByIdQueryHandler,
-    IQueryHandler<GetTestBySectionIdWithAnswerOptionsQuery, Result<List<GetQuestionWithOptionsDto>>> getTestBySectionIdWithAnswerOptionsQueryHandler,
     IQueryHandler<GetQuestionsQuery, Result<List<GetQuestionDto>>> getQuestionsQueryHandler)
         : ControllerBase
 
 {
     [Authorize(Roles = "Admin")]
     [HttpGet("all")]
-    public async Task<IActionResult> GetItemsAsync([FromQuery] GetQuestionsQuery query)
+    public async Task<IActionResult> GetItemsAsync()
     {
-        var result = await getQuestionsQueryHandler.HandleAsync(query);
+        var result = await getQuestionsQueryHandler.HandleAsync(new GetQuestionsQuery());
 
         if (!result.IsSuccess)
             return HandleError(result);
@@ -108,18 +107,7 @@ public class QuestionController(
         return Ok(result.Message);
     }
     
-    [Authorize(Roles = "Admin")]
-    [HttpGet("test {sectionId:int}")]
-    public async Task<IActionResult> GetTestBySectionIdAsync(int sectionId)
-    {
-        var result = await getTestBySectionIdWithAnswerOptionsQueryHandler
-            .HandleAsync(new GetTestBySectionIdWithAnswerOptionsQuery(sectionId));
-
-        if (!result.IsSuccess)
-            return HandleError(result);
-
-        return Ok(result.Data);
-    }
+    
 
 
     private IActionResult HandleError<T>(Result<T> result)

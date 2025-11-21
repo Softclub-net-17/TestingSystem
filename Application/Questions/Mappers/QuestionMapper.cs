@@ -66,7 +66,7 @@ public static class QuestionMapper
         question.Text = command.Text;
     }
     
-    public static GetQuestionWithOptionsDto ToWithOptionsDto(this Question question, List<Domain.Entities.AnswerOption> answerOptions)
+    public static GetQuestionWithOptionsDto ToDtoWithOptions(this Question question, List<Domain.Entities.AnswerOption> answerOptions)
     {
         return new GetQuestionWithOptionsDto
         {

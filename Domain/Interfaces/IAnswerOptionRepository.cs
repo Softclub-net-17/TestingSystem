@@ -9,5 +9,5 @@ public interface IAnswerOptionRepository
     Task<AnswerOption?> GetItemByIdAsync(int id);
     Task DeleteAsync(AnswerOption option);
     
-    Task<List<AnswerOption>> GetRandomedAnswerOptionsByQuestionIdAsync(int questionId);
+    Task<List<AnswerOption>> GetRandomedAnswerOptionsByQuestionIdAsync(int list);
 }

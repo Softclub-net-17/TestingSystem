@@ -3,6 +3,8 @@ using Application.Interfaces;
 using Application.Sections.Commands;
 using Microsoft.AspNetCore.Mvc;
 using Application.Common.Results;
+using Application.Questions.DTOs;
+using Application.Questions.Queries;
 using Application.Sections.Queries;
 using Application.Sections.DTOs;
 using Domain.Filters;
@@ -17,7 +19,9 @@ ICommandHandler<ChangeSectionStatusCommand, Result<string>> changestatusCommandH
 ICommandHandler<UpdateSectionCommand, Result<string>> updateCommandHandler,
 IQueryHandler<GetSectionsQuery,PagedResult<List<GetSectionDTO>>> getQueryHandler,
 IQueryHandler<GetSectionByIdQuery, Result<GetSectionDTO>> getByIdQyeryHandler,
-IQueryHandler<GetActiveSectionsQuery, Result<List<GetSectionDTO>>> getActiveQueryHandler
+IQueryHandler<GetActiveSectionsQuery, Result<List<GetSectionDTO>>> getActiveQueryHandler,
+IQueryHandler<GetTestBySectionIdWithAnswerOptionsQuery, Result<List<GetQuestionWithOptionsDto>>> getTestBySectionIdWithAnswerOptionsQueryHandler
+
 ):ControllerBase
 {
     [Authorize(Roles ="Admin")]
@@ -99,6 +103,18 @@ IQueryHandler<GetActiveSectionsQuery, Result<List<GetSectionDTO>>> getActiveQuer
         }
 
         return Ok(result.Message);
+    }
+    [Authorize(Roles = "Admin")]
+    [HttpGet("test-{sectionId:int}")]
+    public async Task<IActionResult> GetTestBySectionIdAsync(int sectionId)
+    {
+        var result = await getTestBySectionIdWithAnswerOptionsQueryHandler
+            .HandleAsync(new GetTestBySectionIdWithAnswerOptionsQuery(sectionId));
+
+        if (!result.IsSuccess)
+            return HandleError(result);
+
+        return Ok(result.Data);
     }
 
 
