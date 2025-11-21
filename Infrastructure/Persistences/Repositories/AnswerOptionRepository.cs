@@ -28,6 +28,16 @@ public class AnswerOptionRepository(ApplicationDbContext context) : IAnswerOptio
         return Task.CompletedTask;
     }
 
+    // Returns in random order anser options by the question id
+    public async Task<List<AnswerOption>> GetRandomedAnswerOptionsByQuestionIdAsync(int questionId)
+    {
+        return await context.AnswerOptions
+            .Where(ao => ao.QuestionId == questionId)
+            .OrderBy(ao => EF.Functions.Random())
+            .AsNoTracking()
+            .ToListAsync();
+    }
+
     public async Task<int> CorrectAnswerCountAsync(List<int> ints)
     {
        var list=await context.AnswerOptions.Where(ao=>ints.Contains(ao.Id) && ao.IsCorrect).ToListAsync();

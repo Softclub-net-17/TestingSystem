@@ -9,4 +9,5 @@ public interface IQuestionRepository
     Task<List<Question>> GetActiveItemsAsync();
     Task<List<Question>> GetAllAsync();
     Task Create(Question question);
+
 }

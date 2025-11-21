@@ -8,6 +8,8 @@ public interface IAnswerOptionRepository
     Task CreateAsync(AnswerOption option);
     Task<AnswerOption?> GetItemByIdAsync(int id);
     Task DeleteAsync(AnswerOption option);
+    
+    Task<List<AnswerOption>> GetRandomedAnswerOptionsByQuestionIdAsync(int list);
     Task<int> CorrectAnswerCountAsync(List<int> ints);
 
 }
