@@ -17,6 +17,12 @@ public class UserRepository(
         await context.Users.AddAsync(user);
     }
 
+    public Task UpdateAsync(User user)
+    {
+        context.Users.Update(user);
+        return Task.CompletedTask;
+    }
+
     public async Task<bool> ExistsByEmailAsync(string email)
     {
         return await context.Users.AnyAsync(u => u.Email.ToLower() == email.ToLower().Trim());

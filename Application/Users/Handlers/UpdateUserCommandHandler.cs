@@ -22,7 +22,7 @@ public class UpdateUserCommandHandler(IUserRepository userRepository,IUnitOfWork
             return Result<string>.Fail("User to update not found",ErrorType.NotFound);
         command.MapFrom(exist);
 
-        await userRepository.UpdateItemAsync(exist);
+        await userRepository.UpdateAsync(exist);
         await unitOfWork.SaveChangesAsync();
         return Result<string>.Ok(null,"Updated successfully!");
 
