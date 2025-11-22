@@ -33,7 +33,7 @@ public class TestSessionConfigurations : IEntityTypeConfiguration<TestSession>
             .IsRequired();
 
         builder.Property(x => x.TopicId)
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(x => x.SectionId)
             .IsRequired();

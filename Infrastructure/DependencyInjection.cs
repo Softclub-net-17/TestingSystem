@@ -18,6 +18,7 @@ public static class DependencyInjection
         services.AddScoped<ITopicRepository,TopicRepository>();
         services.AddScoped<IQuestionRepository, QuestionRepository>();
         services.AddScoped<IAnswerOptionRepository,AnswerOptionRepository>();
+        services.AddScoped<ITestSessionRepository,TestSessionRepository>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
     }
