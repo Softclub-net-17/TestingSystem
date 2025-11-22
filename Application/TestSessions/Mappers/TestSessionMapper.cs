@@ -9,12 +9,12 @@ namespace Application.TestSessions.Mappers;
 
 public static class TestSessionMapper
 {
-    public static TestSession ToEntity(this CreateTestSessionCommand command, int UserId)
+    public static TestSession ToEntity(this CreateTestSessionCommand command)
     {
         return new TestSession 
         {
             SectionId=command.SectionId,
-            UserId=UserId,
+            UserId=command.UserId,
             StartedAt=DateTime.UtcNow,
             TotalQuestions=10
         };
