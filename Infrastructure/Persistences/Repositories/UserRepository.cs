@@ -9,8 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.Persistences.Repositories;
 
 public class UserRepository(
-    ApplicationDbContext context,
-    IHttpContextAccessor _httpContextAccessor
+    ApplicationDbContext context
 ) : IUserRepository
 {
     public async Task CreateAsync(User user)
@@ -57,20 +56,4 @@ public class UserRepository(
 
     }
 
-    public async Task<int?> GetUserIdFromClaims()
-    {
-        var user = _httpContextAccessor.HttpContext?.User;
-        if(user==null)
-            return null;
-        var claim = user.FindFirst(ClaimTypes.NameIdentifier);
-        if(claim==null)
-            return null;
-        return int.Parse(claim.Value);
-    }
-
-    public Task UpdateItemAsync(User user)
-    {
-        context.Users.Update(user);
-        return Task.CompletedTask;
-    }
 }

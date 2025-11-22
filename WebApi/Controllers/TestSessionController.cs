@@ -1,4 +1,5 @@
 using System;
+using System.Security.Claims;
 using System.Windows.Input;
 using Application.AnswerOption.Queries;
 using Application.Common.Results;
@@ -43,6 +44,11 @@ public class TestSessionController(
     [HttpPost]
     public async Task<IActionResult> CreateItemAsync(CreateTestSessionCommand command)
     {
+
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (!int.TryParse(userIdClaim, out var userId))
+            return BadRequest(new { error = "Invalid userId in token" });
+        command.UserId=userId;
         var result= await createCommandHandler.HandleAsync(command);
         if (!result.IsSuccess)
             return HandleError(result);
