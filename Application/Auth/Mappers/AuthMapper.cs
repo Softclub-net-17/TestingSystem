@@ -11,8 +11,10 @@ public static class AuthMapper
     {
         return new User()
         {
+            FullName = command.FullName,
             Email = command.Email,
             Role = Role.User,
+            BirthDate = command.BirthDate,
             PasswordHash = passwordHash,
             IsActive=true
         };
