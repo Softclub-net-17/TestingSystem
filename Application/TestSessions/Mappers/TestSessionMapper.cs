@@ -9,12 +9,12 @@ namespace Application.TestSessions.Mappers;
 
 public static class TestSessionMapper
 {
-    public static TestSession ToEntity(this CreateTestSessionCommand command)
+    public static TestSession ToEntity(this CreateTestSessionCommand command, int UserId)
     {
         return new TestSession 
         {
             SectionId=command.SectionId,
-            UserId=command.UserId,
+            UserId=UserId,
             StartedAt=DateTime.UtcNow,
             TotalQuestions=10
         };
@@ -48,7 +48,6 @@ public static class TestSessionMapper
         {
             Id=testSession.Id,
             SectionId=testSession.SectionId,
-            UserId=testSession.UserId,
             StartedAt=testSession.StartedAt,
             CompletedAt=testSession.CompletedAt,
             ScorePercent=testSession.ScorePercent,
@@ -63,7 +62,6 @@ public static class TestSessionMapper
         {
             Id=ts.Id,
             SectionId=ts.SectionId,
-            UserId=ts.UserId,
             StartedAt=ts.StartedAt,
             CompletedAt=ts.CompletedAt,
             ScorePercent=ts.ScorePercent,
@@ -71,6 +69,21 @@ public static class TestSessionMapper
             TotalQuestions=ts.TotalQuestions,
             IsPassed=ts.IsPassed
         }).ToList();
+    }
+
+    public static GetUpdateTestSessionResponseDto ToUpdatedDto(this TestSession testSession)
+    {
+        return new GetUpdateTestSessionResponseDto
+        {
+            Id=testSession.Id,
+            SectionId=testSession.SectionId,
+            StartedAt=testSession.StartedAt,
+            CompletedAt=testSession.CompletedAt,
+            ScorePercent=testSession.ScorePercent,
+            CorrectAnswersCount=testSession.CorrectAnswersCount,
+            TotalQuestions=testSession.TotalQuestions,
+            IsPassed=testSession.IsPassed
+        };
     }
 
 }

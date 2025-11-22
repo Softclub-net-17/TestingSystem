@@ -40,7 +40,6 @@ public class AnswerOptionRepository(ApplicationDbContext context) : IAnswerOptio
 
     public async Task<int> CorrectAnswerCountAsync(List<int> ints)
     {
-       var list=await context.AnswerOptions.Where(ao=>ints.Contains(ao.Id) && ao.IsCorrect).ToListAsync();
-        return list.Count();
+       return await context.AnswerOptions.CountAsync(ao=>ints.Contains(ao.Id) && ao.IsCorrect);
     }
 }

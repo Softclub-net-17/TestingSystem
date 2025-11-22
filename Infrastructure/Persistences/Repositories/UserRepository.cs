@@ -1,12 +1,17 @@
 using System;
+using System.Security.Claims;
 using Domain.Entities;
 using Domain.Filters;
 using Domain.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistences.Repositories;
 
-public class UserRepository(ApplicationDbContext context) : IUserRepository
+public class UserRepository(
+    ApplicationDbContext context,
+    IHttpContextAccessor _httpContextAccessor
+) : IUserRepository
 {
     public async Task CreateAsync(User user)
     {
@@ -50,6 +55,17 @@ public class UserRepository(ApplicationDbContext context) : IUserRepository
         .ToListAsync();
         return result;
 
+    }
+
+    public async Task<int?> GetUserIdFromClaims()
+    {
+        var user = _httpContextAccessor.HttpContext?.User;
+        if(user==null)
+            return null;
+        var claim = user.FindFirst(ClaimTypes.NameIdentifier);
+        if(claim==null)
+            return null;
+        return int.Parse(claim.Value);
     }
 
     public Task UpdateItemAsync(User user)

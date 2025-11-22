@@ -14,7 +14,7 @@ namespace WebApi.Controllers;
 [Route("api/test-session")]
 public class TestSessionController(
     ICommandHandler<CreateTestSessionCommand, Result<string>>  createCommandHandler,
-    ICommandHandler<UpdateTestSessionCommand, Result<string>> updateCommandHandler,
+    ICommandHandler<UpdateTestSessionCommand, Result<GetUpdateTestSessionResponseDto>> updateCommandHandler,
     IQueryHandler<GetTestSessionsQuery, PagedResult<List<GetTestSessionDto>>> getQueryHandler,
     IQueryHandler<GetTestSessionByIdQuery, Result<GetTestSessionDto>> getByIdQeuryHandler
 ):ControllerBase
@@ -39,7 +39,7 @@ public class TestSessionController(
 
         return Ok(result.Data);
     }
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "User")]
     [HttpPost]
     public async Task<IActionResult> CreateItemAsync(CreateTestSessionCommand command)
     {
@@ -49,7 +49,7 @@ public class TestSessionController(
 
         return Ok(result.Message);
     }
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "User")]
     [HttpPut("{id:int}")]
 
     public async Task<IActionResult> UpdateItemAsync(int id,UpdateTestSessionCommand command)
@@ -59,7 +59,7 @@ public class TestSessionController(
         if (!result.IsSuccess)
             return HandleError(result);
 
-        return Ok(result.Message);
+        return Ok(result.Data);
     }
 
     private IActionResult HandleError<T>(Result<T> result)

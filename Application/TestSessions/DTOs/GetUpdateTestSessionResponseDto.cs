@@ -2,7 +2,7 @@ using System;
 
 namespace Application.TestSessions.DTOs;
 
-public class GetTestSessionDto
+public class GetUpdateTestSessionResponseDto
 {
     public int Id { get; set; }
     public int SectionId{get;set;}

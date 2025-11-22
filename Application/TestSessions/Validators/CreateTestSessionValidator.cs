@@ -13,8 +13,6 @@ public class CreateTestSessionValidator : IValidator<CreateTestSessionCommand>
 
         if(instance.SectionId<=0)
             validationResult.AddError("Incorrect Section ID");
-        if(instance.UserId<=0)
-            validationResult.AddError("Incorrect User ID");
         return validationResult;
     }
 }

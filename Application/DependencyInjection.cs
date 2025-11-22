@@ -94,7 +94,7 @@ public static class DependencyInjection
         services.AddScoped<IQueryHandler<GetTestSessionsQuery, PagedResult<List<GetTestSessionDto>>>,GetTestSessionsQueryHandler>();
         services.AddScoped<IQueryHandler<GetTestSessionByIdQuery,Result<GetTestSessionDto>>,GetTestSessionByIdQueryHandler>();
         services.AddScoped<ICommandHandler<CreateTestSessionCommand, Result<string>>, CreateTestSessionCommandHandler>();
-        services.AddScoped<ICommandHandler<UpdateTestSessionCommand, Result<string>>, UpdateTestSessionCommandHandler>();
+        services.AddScoped<ICommandHandler<UpdateTestSessionCommand, Result<GetUpdateTestSessionResponseDto>>, UpdateTestSessionCommandHandler>();
         //Validators
         //Auth
         services.AddScoped<IValidator<LoginCommand>, LoginValidator>();

@@ -24,10 +24,10 @@ ISectionRepository sectionRepository
         var sectionExists=await sectionRepository.GetByIdAsync(command.SectionId);
         if(sectionExists==null)
             return Result<string>.Fail($"Section with given id :{command.SectionId} doesnt exists",ErrorType.NotFound);
-        var userExists=await userRepository.GetByIdItemAsync(command.UserId);
-        if(userExists==null)
-            return Result<string>.Fail($"User with given id :{command.UserId} doesnt exists",ErrorType.NotFound);
-        var newTestSession=command.ToEntity();
+        var userExists=await userRepository.GetUserIdFromClaims();
+        if(userExists==0)
+            return Result<string>.Fail($"User is not available",ErrorType.NotFound);
+        var newTestSession=command.ToEntity(userExists.Value);
         await testSessionRepository.CreateItemAsync(newTestSession);
         await unitOfWork.SaveChangesAsync();
         return Result<string>.Ok(null,"Created successfully!");        
