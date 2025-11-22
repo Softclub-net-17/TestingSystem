@@ -7,8 +7,8 @@ namespace Application.TestSessions.Commands;
 
 public class UpdateTestSessionCommand: ICommand<Result<string>>
 {
+    [JsonIgnore]
     public int Id { get; set; }
-    public DateTime? CompletedAt { get; set; } 
     public List<int> ChoosedOptions {get;set;}=[];
     [JsonIgnore]
     public decimal ScorePercent { get; set; }  

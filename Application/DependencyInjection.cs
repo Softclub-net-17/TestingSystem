@@ -19,6 +19,11 @@ using Application.Sections.DTOs;
 using Application.Sections.Handlers;
 using Application.Sections.Queries;
 using Application.Sections.Validators;
+using Application.TestSessions.Commands;
+using Application.TestSessions.DTOs;
+using Application.TestSessions.Handlers;
+using Application.TestSessions.Queries;
+using Application.TestSessions.Validators;
 using Application.Topics.Commands;
 using Application.Topics.DTOs;
 using Application.Topics.Handlers;
@@ -85,6 +90,11 @@ public static class DependencyInjection
         services.AddScoped<IQueryHandler<GetActiveTopicsQuery, Result<List<GetTopicDto>>>,GetActiveTopicsQueryHandler>();
         services.AddScoped<IQueryHandler<GetTopicsBySectionIdQuery, Result<List<GetTopicDto>>>,GetTopicBySectionIdQueryHandler>();
 
+        //TestSession
+        services.AddScoped<IQueryHandler<GetTestSessionsQuery, PagedResult<List<GetTestSessionDto>>>,GetTestSessionsQueryHandler>();
+        services.AddScoped<IQueryHandler<GetTestSessionByIdQuery,Result<GetTestSessionDto>>,GetTestSessionByIdQueryHandler>();
+        services.AddScoped<ICommandHandler<CreateTestSessionCommand, Result<string>>, CreateTestSessionCommandHandler>();
+        services.AddScoped<ICommandHandler<UpdateTestSessionCommand, Result<string>>, UpdateTestSessionCommandHandler>();
         //Validators
         //Auth
         services.AddScoped<IValidator<LoginCommand>, LoginValidator>();
@@ -109,6 +119,8 @@ public static class DependencyInjection
         services.AddScoped<IValidator<CreateTopicCommand>,CreateTopicValidator>();
         services.AddScoped<IValidator<UpdateTopicCommand>, UpdateTopicValidator>();
 
+        //TestSession
+        services.AddScoped<IValidator<CreateTestSessionCommand>,CreateTestSessionValidator>();
 
         
 

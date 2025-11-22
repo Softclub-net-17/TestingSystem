@@ -13,16 +13,11 @@ namespace Application.TestSessions.Handlers;
 public class UpdateTestSessionCommandHandler(
 IAnswerOptionRepository answerOptionRepository,
 ITestSessionRepository testSessionRepository,
-IUnitOfWork unitOfWork,
-IValidator<UpdateTestSessionCommand> validator
+IUnitOfWork unitOfWork
 ): ICommandHandler<UpdateTestSessionCommand, Result<string>>
 {
     public async Task<Result<string>> HandleAsync(UpdateTestSessionCommand command)
     {
-        var validationResult=validator.Validate(command);
-        if(!validationResult.IsValid)
-            return Result<string>.Fail(string.Join("; ", validationResult.Errors.Select(e => e)), ErrorType.Validation);
-
         var exists= await testSessionRepository.GetItemByIdAsync(command.Id);
         if(exists==null)
             return Result<string>.Fail($"Test session with given id: {command.Id} not found");
@@ -40,7 +35,7 @@ IValidator<UpdateTestSessionCommand> validator
     {
         var isPassed=false;
         decimal percent=coreectAnswers*10;
-        if(percent<=80) isPassed=true;
+        if(percent>=80) isPassed=true;
 
         return (percent,isPassed); 
     }

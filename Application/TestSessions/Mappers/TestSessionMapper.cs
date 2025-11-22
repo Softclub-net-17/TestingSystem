@@ -15,14 +15,14 @@ public static class TestSessionMapper
         {
             SectionId=command.SectionId,
             UserId=command.UserId,
-            StartedAt=command.StartedAt,
+            StartedAt=DateTime.UtcNow,
             TotalQuestions=10
         };
     }
 
     public static void MapFrom(this UpdateTestSessionCommand command, TestSession testSession, decimal percent, int correct, bool IsPassed)
     {
-        testSession.CompletedAt=command.CompletedAt;
+        testSession.CompletedAt=DateTime.UtcNow;
         testSession.ScorePercent=percent;
         testSession.CorrectAnswersCount=correct;
         testSession.IsPassed=IsPassed;

@@ -15,8 +15,6 @@ public class CreateTestSessionValidator : IValidator<CreateTestSessionCommand>
             validationResult.AddError("Incorrect Section ID");
         if(instance.UserId<=0)
             validationResult.AddError("Incorrect User ID");
-        if(instance.StartedAt== DateTime.MinValue || instance.StartedAt>DateTime.Now)   
-            validationResult.AddError("Incorrect Start time");
         return validationResult;
     }
 }
