@@ -1,23 +1,15 @@
 using System;
-using System.Runtime.InteropServices;
 
-namespace Domain.Entities;
+namespace Application.TestSessions.DTOs;
 
-public class TestSession
+public class GetUpdateTestSessionResponseDto
 {
     public int Id { get; set; }
-    public int? TopicId { get; set; }
     public int SectionId{get;set;}
-    public int  UserId { get; set; } 
     public DateTime StartedAt { get; set; }
     public DateTime? CompletedAt { get; set; }
     public decimal ScorePercent { get; set; }              
     public int CorrectAnswersCount { get; set; }
     public int TotalQuestions { get; set; }
     public bool IsPassed { get; set; }
-
-    public Topic? Topic { get; set; } 
-    public User User{get;set;}=null!;
-    public Section Section{get;set;}=null!;
-
 }

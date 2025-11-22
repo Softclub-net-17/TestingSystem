@@ -1,12 +1,16 @@
 using System;
+using System.Security.Claims;
 using Domain.Entities;
 using Domain.Filters;
 using Domain.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistences.Repositories;
 
-public class UserRepository(ApplicationDbContext context) : IUserRepository
+public class UserRepository(
+    ApplicationDbContext context
+) : IUserRepository
 {
     public async Task CreateAsync(User user)
     {
@@ -52,9 +56,4 @@ public class UserRepository(ApplicationDbContext context) : IUserRepository
 
     }
 
-    public Task UpdateItemAsync(User user)
-    {
-        context.Users.Update(user);
-        return Task.CompletedTask;
-    }
 }

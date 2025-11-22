@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistences.Repositories;
@@ -35,5 +36,10 @@ public class AnswerOptionRepository(ApplicationDbContext context) : IAnswerOptio
             .OrderBy(ao => EF.Functions.Random())
             .AsNoTracking()
             .ToListAsync();
+    }
+
+    public async Task<int> CorrectAnswerCountAsync(List<int> ints)
+    {
+       return await context.AnswerOptions.CountAsync(ao=>ints.Contains(ao.Id) && ao.IsCorrect);
     }
 }

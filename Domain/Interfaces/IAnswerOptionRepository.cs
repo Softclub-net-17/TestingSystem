@@ -10,4 +10,6 @@ public interface IAnswerOptionRepository
     Task DeleteAsync(AnswerOption option);
     
     Task<List<AnswerOption>> GetRandomedAnswerOptionsByQuestionIdAsync(int list);
+    Task<int> CorrectAnswerCountAsync(List<int> ints);
+
 }
