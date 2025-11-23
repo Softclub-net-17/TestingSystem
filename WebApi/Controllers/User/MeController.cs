@@ -6,11 +6,13 @@ using Application.Users.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers;
+namespace WebApi.Controllers.User;
 
 [ApiController]
 [Route("api/me")]
-[Authorize]
+[Authorize(Roles ="user")]
+[ApiExplorerSettings(GroupName = "client")]
+
 public class MeController(
     IQueryHandler<GetUserByIdQuery, Result<GetUserDTO>> getUserByIdQueryHandler)
     : ControllerBase

@@ -13,11 +13,6 @@ public class SectionRepository(ApplicationDbContext context) : ISectionRepositor
         await context.Sections.AddAsync(section);
     }
 
-    public async Task<List<Section>> GetActiveItemsAsync()
-    {
-        return await context.Sections.Where(s=>s.IsActive).ToListAsync();
-    }
-
     public async Task<Section?> GetByIdAsync(int id)
     {
         return await context.Sections.FirstOrDefaultAsync(s=>s.Id==id);

@@ -12,16 +12,29 @@ public static class SwaggerConfigurations
     {
         services.AddSwaggerGen(static options =>
         {
-            options.SwaggerDoc("v1", new OpenApiInfo
+            options.SwaggerDoc("client", new OpenApiInfo
             {
-                Title = "CRM API",
+                Title = "Client API",
                 Version = "v1",
-                Description = "API",
+                Description = "API для клиентской части ",
                 Contact = new OpenApiContact
                 {
                     Name = "Mehrona Asoeva",
                     Email = "asoevamehrona9@gmail.com",
-                    Url = new Uri("https://crm.tj")
+                    Url = new Uri("https://testingsystem.tj")
+                }
+            });
+            
+            options.SwaggerDoc("admin", new OpenApiInfo
+            {
+                Title = "Admin API",
+                Version = "v1",
+                Description = "API для административной панели",
+                Contact = new OpenApiContact
+                {
+                    Name = "Mehrona Asoeva",
+                    Email = "asoevamehrona9@gmail.com",
+                    Url = new Uri("https://testingsystem.tj")
                 }
             });
             

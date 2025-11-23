@@ -25,12 +25,11 @@ public class CreateTopicCommandHandler(
         var sectionExists= await sectionRepository.GetByIdAsync(command.SectionId);
         if(sectionExists==null)
             return Result<string>.Fail($"Section with given id : {command.SectionId} doesnt exist");
-        if(!sectionExists.IsActive)
-            return Result<string>.Fail("Cannot create topic to inactive section",ErrorType.Conflict);
         
         var exists= await topicRepository.GetItemByNameAsync(command.Title);
         if(exists!=null)
             return Result<string>.Fail("This topic is already exists",ErrorType.Conflict);
+            
         var newTopic=command.ToEntity();
         await topicRepository.CreateItemAsync(newTopic);
         await unitOfWork.SaveChangesAsync();

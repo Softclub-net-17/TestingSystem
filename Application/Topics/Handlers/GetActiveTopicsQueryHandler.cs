@@ -9,12 +9,13 @@ using Domain.Interfaces;
 
 namespace Application.Topics.Handlers;
 
-public class GetActiveTopicsQueryHandler(ITopicRepository topicRepository) : IQueryHandler<GetActiveTopicsQuery, Result<List<GetTopicDto>>>
+public class GetActiveTopicsQueryHandler(ITopicRepository topicRepository) : IQueryHandler<GetActiveTopicsQuery, PagedResult<List<GetTopicDto>>>
 {
-    public async Task<Result<List<GetTopicDto>>> HandleAsync(GetActiveTopicsQuery query)
+    public async Task<PagedResult<List<GetTopicDto>>> HandleAsync(GetActiveTopicsQuery query)
     {
-        var response= await topicRepository.GetActiveItemsAsync();
-        var items= response.ToDto();
-        return Result<List<GetTopicDto>>.Ok(items);
+        var filter= query.ToFilter();
+        var response= await topicRepository.GetItemsAsync(filter);
+        var items= response.Items.ToDto();
+        return PagedResult<List<GetTopicDto>>.Ok(items,filter.Page,filter.Size,response.TotalCount);
     }
 }

@@ -7,10 +7,14 @@ using Application.Questions.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers;
+namespace WebApi.Controllers.Admin;
+
 
 [ApiController]
-[Route("api/answerOption")]
+[Route("api/admin/answer-options")]
+[ApiExplorerSettings(GroupName = "admin")]
+[Authorize(Roles = "Admin")]
+
 public class AnswerOptionController(
     ICommandHandler<CreateAnswerOptionCommand, Result<string>> createAnswerOptionCommandHandler,
     ICommandHandler<UpdateAnswerOptionCommand, Result<string>> updateAnswerOptionCommandHandler,
@@ -19,7 +23,6 @@ public class AnswerOptionController(
     IQueryHandler<GetAnswerOptionByQuestionIdQuery, Result<List<GetAnswerOptionDto>>> getAnswerOptionsByQuestionIdQueryHandler)
 : ControllerBase   
 {
-    [Authorize(Roles = "Admin")]
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetItemByIdAsync(int id)
     {
@@ -31,7 +34,6 @@ public class AnswerOptionController(
         return Ok(result.Data);
     }
 
-    [Authorize(Roles = "User")]
     [HttpGet("by-question/{questionId:int}")]
     public async Task<IActionResult> GetItemsByQuestionIdAsync(int questionId)
     {
@@ -44,7 +46,6 @@ public class AnswerOptionController(
         return Ok(result.Data);
     }
 
-    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> CreateItemAsync(CreateAnswerOptionCommand command)
     {
@@ -56,7 +57,6 @@ public class AnswerOptionController(
         return Ok(result.Message);
     }
 
-    [Authorize(Roles = "Admin")]
     [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateItemAsync(int id, UpdateAnswerOptionCommand command)
     {
@@ -69,7 +69,6 @@ public class AnswerOptionController(
         return Ok(result.Message);
     }
 
-    [Authorize(Roles = "Admin")]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteItemAsync(int id)
     {

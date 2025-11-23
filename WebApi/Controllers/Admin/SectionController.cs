@@ -10,22 +10,22 @@ using Application.Sections.DTOs;
 using Domain.Filters;
 using Microsoft.AspNetCore.Authorization;
 
-namespace WebApi.Controllers;
+namespace WebApi.Controllers.Admin;
 [ApiController]
-[Route("api/sections")]
+[Route("api/admin/sections")]
+[ApiExplorerSettings(GroupName = "admin")]
+[Authorize(Roles ="Admin")]
+
 public class SectionController(
 ICommandHandler<CreateSectionCommand, Result<string>> createCommandHandler,
 ICommandHandler<ChangeSectionStatusCommand, Result<string>> changestatusCommandHandler,
 ICommandHandler<UpdateSectionCommand, Result<string>> updateCommandHandler,
 IQueryHandler<GetSectionsQuery,PagedResult<List<GetSectionDTO>>> getQueryHandler,
-IQueryHandler<GetSectionByIdQuery, Result<GetSectionDTO>> getByIdQyeryHandler,
-IQueryHandler<GetActiveSectionsQuery, Result<List<GetSectionDTO>>> getActiveQueryHandler,
-IQueryHandler<GetTestBySectionIdWithAnswerOptionsQuery, Result<List<GetQuestionWithOptionsDto>>> getTestBySectionIdWithAnswerOptionsQueryHandler
+IQueryHandler<GetSectionByIdQuery, Result<GetSectionDTO>> getByIdQyeryHandler
 
 ):ControllerBase
 {
-    [Authorize(Roles ="Admin")]
-    [HttpGet("all")]
+    [HttpGet]
     public async Task<IActionResult> GetItemsAsync([FromQuery] GetSectionsQuery query)
     {
         var result = await getQueryHandler.HandleAsync(query);
@@ -37,21 +37,6 @@ IQueryHandler<GetTestBySectionIdWithAnswerOptionsQuery, Result<List<GetQuestionW
 
         return Ok(result.Data);
     }
-    [Authorize(Roles ="User")]
-
-    [HttpGet("active")]
-    public async Task<IActionResult> GetActiveItemsAsync()
-    {
-        var result = await getActiveQueryHandler.HandleAsync(new GetActiveSectionsQuery());
-
-        if (!result.IsSuccess)
-        {
-            return HandleError(result);
-        }
-
-        return Ok(result.Data);
-    }
-    [Authorize(Roles ="Admin")]
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetItemByIdAsync(int id)
     {
@@ -64,7 +49,6 @@ IQueryHandler<GetTestBySectionIdWithAnswerOptionsQuery, Result<List<GetQuestionW
 
         return Ok(result.Data);
     }
-    [Authorize(Roles ="Admin")]
     [HttpPost]
     public async Task<IActionResult> CreateItemAsync(CreateSectionCommand command)
     {
@@ -77,7 +61,6 @@ IQueryHandler<GetTestBySectionIdWithAnswerOptionsQuery, Result<List<GetQuestionW
 
         return Ok(result.Message);
     }
-    [Authorize(Roles ="Admin")]
     [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateItemAsync(int id, UpdateSectionCommand command)
     {
@@ -91,8 +74,7 @@ IQueryHandler<GetTestBySectionIdWithAnswerOptionsQuery, Result<List<GetQuestionW
 
         return Ok(result.Message);
     }
-    [Authorize(Roles ="Admin")]
-    [HttpPatch("{id:int}/change-status")]
+    [HttpPatch("change-status/{id:int}")]
     public async Task<IActionResult> ChangeStatusAsync(int id,[FromQuery] bool status)
     {
         var result =await changestatusCommandHandler.HandleAsync(new ChangeSectionStatusCommand(id, status));
@@ -104,18 +86,7 @@ IQueryHandler<GetTestBySectionIdWithAnswerOptionsQuery, Result<List<GetQuestionW
 
         return Ok(result.Message);
     }
-    [Authorize(Roles = "Admin")]
-    [HttpGet("test-{sectionId:int}")]
-    public async Task<IActionResult> GetTestBySectionIdAsync(int sectionId)
-    {
-        var result = await getTestBySectionIdWithAnswerOptionsQueryHandler
-            .HandleAsync(new GetTestBySectionIdWithAnswerOptionsQuery(sectionId));
-
-        if (!result.IsSuccess)
-            return HandleError(result);
-
-        return Ok(result.Data);
-    }
+    
 
 
 

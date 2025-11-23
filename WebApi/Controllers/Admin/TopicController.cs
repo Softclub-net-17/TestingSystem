@@ -9,21 +9,21 @@ using Application.Topics.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers;
+namespace WebApi.Controllers.Admin;
 [ApiController]
-[Route("api/topics")]
+[Route("api/admin/topics")]
+[ApiExplorerSettings(GroupName = "admin")]
+[Authorize(Roles ="Admin")]
 public class TopicController(
 ICommandHandler<CreateTopicCommand, Result<string>> createCommandHandler,
 ICommandHandler<ChangeTopicStatusCommand, Result<string>> changestatusCommandHandler,
 ICommandHandler<UpdateTopicCommand, Result<string>> updateCommandHandler,
 IQueryHandler<GetTopicsQuery,PagedResult<List<GetTopicDto>>> getQueryHandler,
-IQueryHandler<GetActiveTopicsQuery,Result<List<GetTopicDto>>> getActiveQueryHandler,
 IQueryHandler<GetTopicsBySectionIdQuery,Result<List<GetTopicDto>>> getBySectionIdQueryHandler,
 IQueryHandler<GetTopicByIdQuery, Result<GetTopicDto>> getByIdQyeryHandler
 ):ControllerBase
 {
-    [Authorize(Roles ="Admin")]
-    [HttpGet("all")]
+    [HttpGet]
     public async Task<IActionResult> GetItemsAsync([FromQuery] GetTopicsQuery query)
     {
         var result = await getQueryHandler.HandleAsync(query);
@@ -35,21 +35,6 @@ IQueryHandler<GetTopicByIdQuery, Result<GetTopicDto>> getByIdQyeryHandler
 
         return Ok(result.Data);
     }
-    [Authorize(Roles ="User")]
-
-    [HttpGet("active")]
-    public async Task<IActionResult> GetActiveItemsAsync()
-    {
-        var result = await getActiveQueryHandler.HandleAsync(new GetActiveTopicsQuery());
-
-        if (!result.IsSuccess)
-        {
-            return HandleError(result);
-        }
-
-        return Ok(result.Data);
-    }
-    [Authorize(Roles ="Admin")]
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetItemByIdAsync(int id)
     {
@@ -62,8 +47,7 @@ IQueryHandler<GetTopicByIdQuery, Result<GetTopicDto>> getByIdQyeryHandler
 
         return Ok(result.Data);
     }
-    [Authorize(Roles ="Admin")]
-    [HttpGet("-by-sectionId-{id:int}")]
+    [HttpGet("/by-sectionId-{id:int}")]
     public async Task<IActionResult> GetItemBySectionIdAsync(int id)
     {
         var result = await getBySectionIdQueryHandler.HandleAsync(new GetTopicsBySectionIdQuery(id));
@@ -75,8 +59,6 @@ IQueryHandler<GetTopicByIdQuery, Result<GetTopicDto>> getByIdQyeryHandler
 
         return Ok(result.Data);
     }
-
-    [Authorize(Roles ="Admin")]
     [HttpPost]
     public async Task<IActionResult> CreateItemAsync(CreateTopicCommand command)
     {
@@ -89,7 +71,6 @@ IQueryHandler<GetTopicByIdQuery, Result<GetTopicDto>> getByIdQyeryHandler
 
         return Ok(result.Message);
     }
-    [Authorize(Roles ="Admin")]
     [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateItemAsync(int id, UpdateTopicCommand command)
     {
@@ -103,8 +84,7 @@ IQueryHandler<GetTopicByIdQuery, Result<GetTopicDto>> getByIdQyeryHandler
 
         return Ok(result.Message);
     }
-    [Authorize(Roles ="Admin")]
-    [HttpPatch("{id:int}/change-status")]
+    [HttpPatch("change-status/{id:int}")]
     public async Task<IActionResult> ChangeStatusAsync(int id,[FromQuery] bool status)
     {
         var result =await changestatusCommandHandler.HandleAsync(new ChangeTopicStatusCommand(id, status));

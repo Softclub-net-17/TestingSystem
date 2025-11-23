@@ -5,9 +5,12 @@ using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers;
+namespace WebApi.Controllers.User;
 [ApiController]
 [Route("api/auth")]
+[ApiExplorerSettings(GroupName = "client")]
+
+
 public class AuthController(ICommandHandler<LoginCommand, Result<string>> loginCommandHandler,
     ICommandHandler<RegisterCommand, Result<string>> registerCommandHandler):ControllerBase
 {
