@@ -56,4 +56,10 @@ public class SectionRepository(ApplicationDbContext context) : ISectionRepositor
             .AsNoTracking()
             .ToListAsync();
     }
+
+    public async Task<int> CountActiveAsync()
+    {
+        return await context.Sections.CountAsync(s => s.IsActive);
+    }
+
 }

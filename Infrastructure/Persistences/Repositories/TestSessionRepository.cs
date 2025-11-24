@@ -13,6 +13,13 @@ public class TestSessionRepository(ApplicationDbContext context) : ITestSessionR
         await context.TestSessions.AddAsync(testSession);
     }
 
+    public async Task<decimal> GetAverageScorePercentAsync()
+    {
+        return await context.TestSessions.AnyAsync()
+            ? await context.TestSessions.AverageAsync(ts => ts.ScorePercent)
+            : 0m;
+    }
+
     public Task<TestSession?> GetItemByIdAsync(int id)
     {
         return context.TestSessions.FirstOrDefaultAsync(ts=>ts.Id==id);

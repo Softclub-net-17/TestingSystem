@@ -10,4 +10,5 @@ public interface IQuestionRepository
     Task<List<Question>> GetAllAsync();
     Task Create(Question question);
 
+    Task<int> CountAllQuestionsAsync();
 }
