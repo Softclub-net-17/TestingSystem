@@ -13,10 +13,6 @@ public class TopicRepository(ApplicationDbContext context) : ITopicRepository
         await context.Topics.AddAsync(topic);
     }
 
-    public async Task<List<Topic>> GetActiveItemsAsync()
-    {
-        return await context.Topics.Where(t=>t.IsPublished).ToListAsync();
-    }
 
     public async Task<Topic?> GetItemByIdAsync(int id)
     {
@@ -30,7 +26,7 @@ public class TopicRepository(ApplicationDbContext context) : ITopicRepository
         
     }
 
-    public async Task<List<Topic>> GetItemsAsync(TopicFilter filter)
+    public async Task<(List<Topic> Items, int TotalCount)> GetItemsAsync(TopicFilter filter)
     {
         var query= context.Topics.AsQueryable();
         if(!string.IsNullOrWhiteSpace(filter.Title))
@@ -38,11 +34,12 @@ public class TopicRepository(ApplicationDbContext context) : ITopicRepository
 
         if (filter.IsPublished.HasValue)
             query=query.Where(s=>s.IsPublished==filter.IsPublished.Value);
+        var totalCount= await query.CountAsync();
         var items= await query
         .Skip((filter.Page-1)*filter.Size)
         .Take(filter.Size)
         .ToListAsync();
-        return items;
+        return (items,totalCount);
     }
 
     public async Task<List<Topic>> GetTopicBySectionIdAsync(int sectionId)

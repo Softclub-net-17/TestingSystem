@@ -56,4 +56,15 @@ public static class SectionMapper
             Size=query.Size
         };
     }
+    public static SectionFilter ToFilter(this GetActiveSectionsQuery query)
+    {
+        return new SectionFilter
+        {
+            Name=query.Name,
+            IsActive=true,
+            Page=query.Page,
+            Size=query.Size
+        };
+    }
+    
 }

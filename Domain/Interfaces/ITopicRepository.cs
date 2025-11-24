@@ -6,8 +6,7 @@ namespace Domain.Interfaces;
 
 public interface ITopicRepository
 {
-    public Task<List<Topic>> GetItemsAsync(TopicFilter filter);
-    public Task<List<Topic>> GetActiveItemsAsync();
+    public Task<(List<Topic> Items, int TotalCount)> GetItemsAsync(TopicFilter filter);
     public Task<Topic?> GetItemByIdAsync(int id);
     public Task CreateItemAsync(Topic topic);
     public Task<Topic?> GetItemByNameAsync(string name);

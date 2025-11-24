@@ -14,8 +14,7 @@ public class GetTopicsQueryHandler(ITopicRepository topicRepository) : IQueryHan
     {
         var filter= query.ToFilter();
         var response= await topicRepository.GetItemsAsync(filter);
-        var totalCount=response.Count;
-        var items= response.ToDto();
-        return PagedResult<List<GetTopicDto>>.Ok(items,filter.Page, filter.Size, totalCount);
+        var items= response.Items.ToDto();
+        return PagedResult<List<GetTopicDto>>.Ok(items,filter.Page, filter.Size, response.TotalCount);
     }
 }

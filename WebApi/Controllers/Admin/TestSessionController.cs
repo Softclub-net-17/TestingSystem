@@ -10,17 +10,17 @@ using Application.TestSessions.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers;
+namespace WebApi.Controllers.Admin;
 [ApiController]
-[Route("api/test-session")]
+[Route("api/admin/test-sessions")]
+[ApiExplorerSettings(GroupName = "admin")]
+[Authorize(Roles ="Admin")]
+
 public class TestSessionController(
-    ICommandHandler<CreateTestSessionCommand, Result<string>>  createCommandHandler,
-    ICommandHandler<UpdateTestSessionCommand, Result<GetUpdateTestSessionResponseDto>> updateCommandHandler,
     IQueryHandler<GetTestSessionsQuery, PagedResult<List<GetTestSessionDto>>> getQueryHandler,
     IQueryHandler<GetTestSessionByIdQuery, Result<GetTestSessionDto>> getByIdQeuryHandler
 ):ControllerBase
 {
-    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> GetItemsAsync([FromQuery] GetTestSessionsQuery query)
     {
@@ -30,38 +30,10 @@ public class TestSessionController(
 
         return Ok(result.Data);
     }
-    [Authorize(Roles = "Admin")]
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetItemByIdAsync(int id)
     {
         var result= await getByIdQeuryHandler.HandleAsync(new GetTestSessionByIdQuery(id));
-        if (!result.IsSuccess)
-            return HandleError(result);
-
-        return Ok(result.Data);
-    }
-    [Authorize(Roles = "User")]
-    [HttpPost]
-    public async Task<IActionResult> CreateItemAsync(CreateTestSessionCommand command)
-    {
-
-        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (!int.TryParse(userIdClaim, out var userId))
-            return BadRequest(new { error = "Invalid userId in token" });
-        command.UserId=userId;
-        var result= await createCommandHandler.HandleAsync(command);
-        if (!result.IsSuccess)
-            return HandleError(result);
-
-        return Ok(result.Message);
-    }
-    [Authorize(Roles = "User")]
-    [HttpPut("{id:int}")]
-
-    public async Task<IActionResult> UpdateItemAsync(int id,UpdateTestSessionCommand command)
-    {
-        command.Id=id;
-        var result= await updateCommandHandler.HandleAsync(command);
         if (!result.IsSuccess)
             return HandleError(result);
 

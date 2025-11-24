@@ -63,4 +63,14 @@ public static class TopicMapper
             Size=query.Size
         };
     }
+    public static TopicFilter ToFilter(this GetActiveTopicsQuery query)
+    {
+        return new TopicFilter
+        {
+            Title=query.Title,
+            IsPublished=true,
+            Page=query.Page,
+            Size=query.Size
+        };
+    }
 }

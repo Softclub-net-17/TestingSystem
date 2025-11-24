@@ -9,12 +9,13 @@ using Domain.Interfaces;
 
 namespace Application.Sections.Handlers;
 
-public class GetActiveSectionsQueryHandler(ISectionRepository sectionRepository) : IQueryHandler<GetActiveSectionsQuery, Result<List<GetSectionDTO>>>
+public class GetActiveSectionsQueryHandler(ISectionRepository sectionRepository) : IQueryHandler<GetActiveSectionsQuery, PagedResult<List<GetSectionDTO>>>
 {
-    public async Task<Result<List<GetSectionDTO>>> HandleAsync(GetActiveSectionsQuery query)
+    public async Task<PagedResult<List<GetSectionDTO>>> HandleAsync(GetActiveSectionsQuery query)
     {
-        var response= await sectionRepository.GetActiveItemsAsync();
-        var items= response.ToDto();
-        return Result<List<GetSectionDTO>>.Ok(items);
+        var filter= query.ToFilter();
+        var response= await sectionRepository.GetItemsAsync(filter);
+        var items= response.Items.ToDto();
+        return PagedResult<List<GetSectionDTO>>.Ok(items,filter.Page, filter.Size, response.TotalCount);
     }
 }

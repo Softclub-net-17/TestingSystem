@@ -7,9 +7,10 @@ using Application.Users.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers;
+namespace WebApi.Controllers.Admin;
 [ApiController]
-[Route("api/users")]
+[Route("api/admin/users")]
+[ApiExplorerSettings(GroupName = "admin")]
 [Authorize(Roles ="Admin")]
 public class UserController(
 IQueryHandler<GetUserByIdQuery, Result<GetUserDTO>> getByIdQueryHandler,

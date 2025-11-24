@@ -1,36 +1,36 @@
-﻿using System.Security.Claims;
+using System;
+using Application.Auth.Commands;
 using Application.Common.Results;
 using Application.Interfaces;
-using Application.Users.DTOs;
-using Application.Users.Queries;
+using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers;
+namespace WebApi.Controllers.Admin;
 
 [ApiController]
-[Route("api/me")]
-[Authorize]
-public class MeController(
-    IQueryHandler<GetUserByIdQuery, Result<GetUserDTO>> getUserByIdQueryHandler)
-    : ControllerBase
-{
-    [HttpGet]
-    public async Task<IActionResult> GetMyInfoAsync()
-    {
-        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        
-        if (!int.TryParse(userIdClaim, out var userId))
-            return BadRequest(new { error = "Invalid userId in token" });
-        
-        var result = await getUserByIdQueryHandler.HandleAsync(new GetUserByIdQuery(userId));
-        
-        if (!result.IsSuccess)
-            return HandleError(result);
+[Route("api/admin/auth")]
+[ApiExplorerSettings(GroupName = "admin")]
 
+public class AuthController(ICommandHandler<LoginCommand, Result<string>> loginCommandHandler,
+    ICommandHandler<RegisterCommand, Result<string>> registerCommandHandler):ControllerBase
+{
+    [HttpPost("login")]
+    public async Task<IActionResult> LoginAsync(LoginCommand command)
+    {
+        var result = await loginCommandHandler.HandleAsync(command);
+
+        if (!result.IsSuccess)
+        {
+            return HandleError(result);
+        }
+        
         return Ok(result.Data);
     }
     
+  
+
+
     private IActionResult HandleError<T>(Result<T> result)
     {
         return result.ErrorType switch
