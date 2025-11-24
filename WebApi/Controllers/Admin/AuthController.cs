@@ -28,18 +28,7 @@ public class AuthController(ICommandHandler<LoginCommand, Result<string>> loginC
         return Ok(result.Data);
     }
     
-    [HttpPost("register")]
-    public async Task<IActionResult> RegisterAsync(RegisterCommand command)
-    {
-        var result = await registerCommandHandler.HandleAsync(command);
-
-        if (!result.IsSuccess)
-        {
-            return HandleError(result);
-        }
-        
-        return Ok(result.Message);
-    }
+  
 
 
     private IActionResult HandleError<T>(Result<T> result)

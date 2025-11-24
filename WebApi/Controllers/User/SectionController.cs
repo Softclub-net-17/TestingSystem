@@ -35,7 +35,7 @@ IQueryHandler<GetTestBySectionIdWithAnswerOptionsQuery, Result<List<GetQuestionW
         return Ok(result.Data);
     }
 
-    [HttpGet("test/{sectionId:int}")]
+    [HttpGet("{sectionId:int}/test")]
     public async Task<IActionResult> GetTestBySectionIdAsync(int sectionId)
     {
         var result = await getTestBySectionIdWithAnswerOptionsQueryHandler
