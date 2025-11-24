@@ -16,6 +16,19 @@ builder.Services.AddAuthConfigurations(builder.Configuration);
 builder.Services.AddConnectionConfigurations(builder.Configuration);
 builder.Services.AddRepositories(builder.Configuration);
 builder.Services.AddApplicationServices();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.WithOrigins(
+            "http://localhost:3000/",
+            "http://localhost:3001/")
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 try
@@ -41,18 +54,11 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseCors(policy =>
-    policy.WithOrigins("http://localhost:3000/","http://localhost:3001/") 
-        .AllowAnyHeader()
-        .AllowAnyMethod()
-        .AllowCredentials()
-    );
+app.UseCors("AllowAll");
     
-
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
-
