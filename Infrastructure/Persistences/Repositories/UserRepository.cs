@@ -1,6 +1,7 @@
 using System;
 using System.Security.Claims;
 using Domain.Entities;
+using Domain.Enums;
 using Domain.Filters;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -36,6 +37,11 @@ public class UserRepository(
     public async Task<User?> GetByIdItemAsync(int id)
     {
         return await context.Users.FirstOrDefaultAsync(u=>u.Id==id);
+    }
+
+    public async Task<int> CountActiveItemsAsync()
+    {
+        return await context.Users.CountAsync(u => u.Role == Role.User && u.IsActive);
     }
 
     public async Task<List<User>> GetFilteredItemsAsync(UserFilter filter)

@@ -34,7 +34,9 @@ public class QuestionRepository(ApplicationDbContext context) : IQuestionReposit
     {
         await context.Questions.AddAsync(question);
     }
-    
-    
-    
+
+    public async Task<int> CountAllQuestionsAsync()
+    {
+        return await context.Questions.CountAsync();
+    }
 }

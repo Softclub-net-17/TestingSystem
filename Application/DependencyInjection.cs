@@ -19,6 +19,9 @@ using Application.Sections.DTOs;
 using Application.Sections.Handlers;
 using Application.Sections.Queries;
 using Application.Sections.Validators;
+using Application.Statistics.DTOs;
+using Application.Statistics.Handlers;
+using Application.Statistics.Queries;
 using Application.TestSessions.Commands;
 using Application.TestSessions.DTOs;
 using Application.TestSessions.Handlers;
@@ -95,6 +98,10 @@ public static class DependencyInjection
         services.AddScoped<IQueryHandler<GetTestSessionByIdQuery,Result<GetTestSessionDto>>,GetTestSessionByIdQueryHandler>();
         services.AddScoped<ICommandHandler<CreateTestSessionCommand, Result<string>>, CreateTestSessionCommandHandler>();
         services.AddScoped<ICommandHandler<UpdateTestSessionCommand, Result<GetUpdateTestSessionResponseDto>>, UpdateTestSessionCommandHandler>();
+        
+        //Statistics
+        services.AddScoped<IQueryHandler<GetStatisticQuery, Result<GetStatisticDto>>, GetStatisticQueryHandler>();
+        
         //Validators
         //Auth
         services.AddScoped<IValidator<LoginCommand>, LoginValidator>();
