@@ -79,7 +79,7 @@ public static class DependencyInjection
         //Section
         services.AddScoped<IQueryHandler<GetSectionsQuery, PagedResult<List<GetSectionDTO>>>,GetSectionsQueryHandler>();
         services.AddScoped<IQueryHandler<GetActiveSectionsQuery, PagedResult<List<GetSectionDTO>>>,GetActiveSectionsQueryHandler>();
-        services.AddScoped<IQueryHandler<GetSectionByIdQuery,Result<GetSectionDTO>>,GetSectionByIdQueryHandler>();
+        services.AddScoped<IQueryHandler<GetSectionByIdQuery,Result<GetSectionByIdDto>>,GetSectionByIdQueryHandler>();
         services.AddScoped<ICommandHandler<CreateSectionCommand, Result<string>>, CreateSectionCommandHandler>();
         services.AddScoped<ICommandHandler<UpdateSectionCommand, Result<string>>, UpdateSectionCommandHandler>();
         services.AddScoped<ICommandHandler<ChangeSectionStatusCommand, Result<string>>, ChangeSectionStatusCommandHandler>();
@@ -91,7 +91,7 @@ public static class DependencyInjection
         services.AddScoped<ICommandHandler<UpdateTopicCommand, Result<string>>, UpdateTopicCommandHandler>();
         services.AddScoped<ICommandHandler<ChangeTopicStatusCommand, Result<string>>, ChangeTopicStatusCommandHandler>();
         services.AddScoped<IQueryHandler<GetActiveTopicsQuery, PagedResult<List<GetTopicDto>>>,GetActiveTopicsQueryHandler>();
-        services.AddScoped<IQueryHandler<GetTopicsBySectionIdQuery, Result<List<GetTopicDto>>>,GetTopicBySectionIdQueryHandler>();
+        services.AddScoped<IQueryHandler<GetTopicsBySectionIdQuery, Result<List<GetTopicBySectionIdDto>>>,GetTopicBySectionIdQueryHandler>();
 
         //TestSession
         services.AddScoped<IQueryHandler<GetTestSessionsQuery, PagedResult<List<GetTestSessionDto>>>,GetTestSessionsQueryHandler>();

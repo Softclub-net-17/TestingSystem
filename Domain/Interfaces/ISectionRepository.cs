@@ -12,4 +12,6 @@ public interface ISectionRepository
     public Task<Section?> GetItemByNameAsync(string name);
     Task<List<Question>> GetRandomQuestionsAsync(int sectionId);
     Task<int> CountActiveAsync();
+    Task<decimal> GetAverageScorePercentAsync();
+
 }

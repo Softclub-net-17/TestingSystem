@@ -15,7 +15,7 @@ public class SectionRepository(ApplicationDbContext context) : ISectionRepositor
 
     public async Task<Section?> GetByIdAsync(int id)
     {
-        return await context.Sections.FirstOrDefaultAsync(s=>s.Id==id);
+        return await context.Sections.Include(s=>s.Topics).FirstOrDefaultAsync(s=>s.Id==id);
     }
 
     public async Task<Section?> GetItemByNameAsync(string name)
@@ -33,6 +33,10 @@ public class SectionRepository(ApplicationDbContext context) : ISectionRepositor
 
     if (filter.IsActive.HasValue)
         query = query.Where(s => s.IsActive == filter.IsActive.Value);
+    if (filter.TotalTopics.HasValue)
+        query = query.Where(s =>context.Topics.Count(t => t.SectionId == s.Id) >= filter.TotalTopics.Value);
+    if (filter.TotalQuestion.HasValue)
+        query = query.Where(s =>context.Questions.Count(q => q.Topic.SectionId == s.Id) >= filter.TotalQuestion.Value);
 
     var totalCount = await query.CountAsync();
 
@@ -60,6 +64,18 @@ public class SectionRepository(ApplicationDbContext context) : ISectionRepositor
     public async Task<int> CountActiveAsync()
     {
         return await context.Sections.CountAsync(s => s.IsActive);
+    }
+
+    public async Task<decimal> GetAverageScorePercentAsync()
+    {
+        var sectionMaxAvarage = await context.TestSessions
+            .GroupBy(ts => ts.SectionId)
+            .Select(g => g.Max(ts => ts.ScorePercent))
+            .ToListAsync();
+
+        return sectionMaxAvarage.Count == 0
+            ? 0m
+            : sectionMaxAvarage.Average();
     }
 
 }

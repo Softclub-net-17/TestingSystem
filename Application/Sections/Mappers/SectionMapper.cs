@@ -28,13 +28,15 @@ public static class SectionMapper
             IsActive=s.IsActive
         }).ToList();
     }
-    public static GetSectionDTO ToDto(this Section section)
+    public static GetSectionByIdDto ToDto(this Section section, int topicCount)
     {
-        return new GetSectionDTO
+        return new GetSectionByIdDto
         {
             Id=section.Id,
             Name=section.Name,
-            IsActive=section.IsActive
+            IsActive=section.IsActive,
+            TopicCount= topicCount
+
         };
     }
 
@@ -52,6 +54,8 @@ public static class SectionMapper
         {
             Name=query.Name,
             IsActive=query.IsActive,
+            TotalTopics=query.TotalTopics,
+            TotalQuestion=query.TotalQuestion,
             Page=query.Page,
             Size=query.Size
         };
@@ -66,5 +70,6 @@ public static class SectionMapper
             Size=query.Size
         };
     }
+
     
 }
