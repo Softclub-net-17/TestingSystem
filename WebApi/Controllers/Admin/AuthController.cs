@@ -12,8 +12,7 @@ namespace WebApi.Controllers.Admin;
 [Route("api/admin/auth")]
 [ApiExplorerSettings(GroupName = "admin")]
 
-public class AuthController(ICommandHandler<LoginCommand, Result<string>> loginCommandHandler,
-    ICommandHandler<RegisterCommand, Result<string>> registerCommandHandler):ControllerBase
+public class AuthController(ICommandHandler<LoginCommand, Result<string>> loginCommandHandler):ControllerBase
 {
     [HttpPost("login")]
     public async Task<IActionResult> LoginAsync(LoginCommand command)

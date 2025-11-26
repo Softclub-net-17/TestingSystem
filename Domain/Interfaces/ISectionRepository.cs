@@ -1,4 +1,5 @@
 using System;
+using Domain.DTOs;
 using Domain.Entities;
 using Domain.Filters;
 
@@ -13,5 +14,6 @@ public interface ISectionRepository
     Task<List<Question>> GetRandomQuestionsAsync(int sectionId);
     Task<int> CountActiveAsync();
     Task<decimal> GetAverageScorePercentAsync();
+    Task<List<AvarageSectionStatisticDto>> GetSectionStatisticsAsync();
 
 }

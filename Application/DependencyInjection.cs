@@ -37,6 +37,7 @@ using Application.Users.DTOs;
 using Application.Users.Handlers;
 using Application.Users.Queries;
 using Application.Users.Validators;
+using Domain.DTOs;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -101,6 +102,7 @@ public static class DependencyInjection
         
         //Statistics
         services.AddScoped<IQueryHandler<GetStatisticQuery, Result<GetStatisticDto>>, GetStatisticQueryHandler>();
+        services.AddScoped<IQueryHandler<GetAvarageSectionStatisticQuery, Result<List<AvarageSectionStatisticDto>>>, GetAvarageSectionStatisticQueryHandler>();
         
         //Validators
         //Auth

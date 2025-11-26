@@ -1,4 +1,5 @@
 using System;
+using Domain.DTOs;
 using Domain.Entities;
 using Domain.Filters;
 using Domain.Interfaces;
@@ -78,4 +79,30 @@ public class SectionRepository(ApplicationDbContext context) : ISectionRepositor
             : sectionMaxAvarage.Average();
     }
 
+    public async Task<List<AvarageSectionStatisticDto>> GetSectionStatisticsAsync()
+    {
+        var bestPerUserPerSection = context.TestSessions
+        .Where(ts => ts.IsPassed && ts.CompletedAt != null) 
+        .GroupBy(ts => new { ts.SectionId, ts.UserId })
+        .Select(g => new
+        {
+            SectionId = g.Key.SectionId,
+            UserId = g.Key.UserId,
+            BestScore = g.Max(x => x.ScorePercent)
+        });
+
+    var statsQuery = from ub in bestPerUserPerSection
+                     join s in context.Sections on ub.SectionId equals s.Id
+                     group ub by new { ub.SectionId, s.Name } into sg
+                     select new AvarageSectionStatisticDto
+                     {
+                         SectionId = sg.Key.SectionId,
+                         SectionName = sg.Key.Name,
+                         UserCount = sg.Count(),
+                         AverageOfScorePercent = sg.Average(x => x.BestScore)
+                     };
+
+    var result = await statsQuery.ToListAsync();
+    return result;
+    }
 }
