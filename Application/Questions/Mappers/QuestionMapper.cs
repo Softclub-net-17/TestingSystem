@@ -77,8 +77,8 @@ public static class QuestionMapper
             AnswerOptions = answerOptions.Select(ao => new GetAnswerOptionDto
             {
                 Id = ao.Id,
-                Text = ao.Text,
-                IsCorrect = ao.IsCorrect
+                QuestionId=ao.QuestionId,
+                Text = ao.Text
             }).ToList()
         };
     }

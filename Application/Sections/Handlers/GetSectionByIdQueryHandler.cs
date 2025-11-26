@@ -9,14 +9,15 @@ using Domain.Interfaces;
 
 namespace Application.Sections.Handlers;
 
-public class GetSectionByIdQueryHandler(ISectionRepository sectionRepository) : IQueryHandler<GetSectionByIdQuery, Result<GetSectionDTO>>
+public class GetSectionByIdQueryHandler(ISectionRepository sectionRepository) : IQueryHandler<GetSectionByIdQuery, Result<GetSectionByIdDto>>
 {
-    public async Task<Result<GetSectionDTO>> HandleAsync(GetSectionByIdQuery query)
+    public async Task<Result<GetSectionByIdDto>> HandleAsync(GetSectionByIdQuery query)
     {
         var exist= await sectionRepository.GetByIdAsync(query.Id);
         if(exist==null)
-            return Result<GetSectionDTO>.Fail($"Section with this id: {query.Id} not found",ErrorType.NotFound);
-        var section=exist.ToDto();
-        return Result<GetSectionDTO>.Ok(section);
+            return Result<GetSectionByIdDto>.Fail($"Section with this id: {query.Id} not found",ErrorType.NotFound);
+        var topicCount=exist.Topics.Count;
+        var section=exist.ToDto(topicCount);
+        return Result<GetSectionByIdDto>.Ok(section);
     }
 }

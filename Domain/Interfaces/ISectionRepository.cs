@@ -1,4 +1,5 @@
 using System;
+using Domain.DTOs;
 using Domain.Entities;
 using Domain.Filters;
 
@@ -12,4 +13,6 @@ public interface ISectionRepository
     public Task<Section?> GetItemByNameAsync(string name);
     Task<List<Question>> GetRandomQuestionsAsync(int sectionId);
     Task<int> CountActiveAsync();
+    Task<List<AvarageSectionStatisticDto>> GetSectionStatisticsAsync();
+
 }

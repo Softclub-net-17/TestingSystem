@@ -19,7 +19,7 @@ ICommandHandler<CreateTopicCommand, Result<string>> createCommandHandler,
 ICommandHandler<ChangeTopicStatusCommand, Result<string>> changestatusCommandHandler,
 ICommandHandler<UpdateTopicCommand, Result<string>> updateCommandHandler,
 IQueryHandler<GetTopicsQuery,PagedResult<List<GetTopicDto>>> getQueryHandler,
-IQueryHandler<GetTopicsBySectionIdQuery,Result<List<GetTopicDto>>> getBySectionIdQueryHandler,
+IQueryHandler<GetTopicsBySectionIdQuery,Result<List<GetTopicBySectionIdDto>>> getBySectionIdQueryHandler,
 IQueryHandler<GetTopicByIdQuery, Result<GetTopicDto>> getByIdQyeryHandler
 ):ControllerBase
 {

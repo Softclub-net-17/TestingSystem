@@ -44,6 +44,6 @@ public class TopicRepository(ApplicationDbContext context) : ITopicRepository
 
     public async Task<List<Topic>> GetTopicBySectionIdAsync(int sectionId)
     {
-        return await context.Topics.Where(s=>s.SectionId==sectionId).ToListAsync();
+        return await context.Topics.Include(t=>t.Questions).Where(s=>s.SectionId==sectionId).ToListAsync();
     }
 }

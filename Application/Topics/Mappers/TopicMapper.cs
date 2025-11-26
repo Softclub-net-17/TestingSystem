@@ -31,6 +31,20 @@ public static class TopicMapper
             IsPublished=t.IsPublished
         }).ToList();
     }
+
+    public static List<GetTopicBySectionIdDto> ToGetBySectionIdDto(this List<Topic> topics)
+    {
+        return topics.Select(t=>new GetTopicBySectionIdDto
+        {
+            Id=t.Id,
+            Title=t.Title,
+            SectionId=t.SectionId,
+            Content=t.Content,
+            IsPublished=t.IsPublished,
+            QuestionCount=t.Questions.Count
+
+        }).ToList();
+    }
     public static GetTopicDto ToDto(this Topic topic)
     {
         return new GetTopicDto

@@ -21,7 +21,7 @@ ICommandHandler<CreateSectionCommand, Result<string>> createCommandHandler,
 ICommandHandler<ChangeSectionStatusCommand, Result<string>> changestatusCommandHandler,
 ICommandHandler<UpdateSectionCommand, Result<string>> updateCommandHandler,
 IQueryHandler<GetSectionsQuery,PagedResult<List<GetSectionDTO>>> getQueryHandler,
-IQueryHandler<GetSectionByIdQuery, Result<GetSectionDTO>> getByIdQyeryHandler
+IQueryHandler<GetSectionByIdQuery, Result<GetSectionByIdDto>> getByIdQyeryHandler
 
 ):ControllerBase
 {
