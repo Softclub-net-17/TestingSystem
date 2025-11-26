@@ -10,7 +10,7 @@ namespace WebApi.Controllers.User;
 
 [ApiController]
 [Route("api/me")]
-[Authorize(Roles ="user")]
+[Authorize]
 [ApiExplorerSettings(GroupName = "client")]
 
 public class MeController(
