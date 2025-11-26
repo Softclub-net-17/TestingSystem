@@ -22,8 +22,7 @@ public static class AnswerOptionMapper
         {
             Id = option.Id,
             QuestionId = option.QuestionId,
-            Text = option.Text,
-            IsCorrect = option.IsCorrect
+            Text = option.Text
         };
     }
 
