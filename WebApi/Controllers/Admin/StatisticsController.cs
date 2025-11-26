@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Application.Statistics.DTOs;
 using Application.Statistics.Queries;
 using Domain.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
@@ -10,6 +11,9 @@ namespace WebApi.Controllers.Admin;
 
 [ApiController]
 [Route("api/statistics")]
+[ApiExplorerSettings(GroupName = "admin")]
+[Authorize(Roles ="Admin")]
+
 public class StatisticsController(
     IQueryHandler<GetStatisticQuery, Result<GetStatisticDto>> queryHandler,
     IQueryHandler<GetAvarageSectionStatisticQuery, Result<List<AvarageSectionStatisticDto>>> statisticSectionQueryHandler) : ControllerBase

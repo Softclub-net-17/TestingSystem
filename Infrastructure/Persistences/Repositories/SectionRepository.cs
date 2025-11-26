@@ -67,22 +67,11 @@ public class SectionRepository(ApplicationDbContext context) : ISectionRepositor
         return await context.Sections.CountAsync(s => s.IsActive);
     }
 
-    public async Task<decimal> GetAverageScorePercentAsync()
-    {
-        var sectionMaxAvarage = await context.TestSessions
-            .GroupBy(ts => ts.SectionId)
-            .Select(g => g.Max(ts => ts.ScorePercent))
-            .ToListAsync();
-
-        return sectionMaxAvarage.Count == 0
-            ? 0m
-            : sectionMaxAvarage.Average();
-    }
 
     public async Task<List<AvarageSectionStatisticDto>> GetSectionStatisticsAsync()
     {
         var bestPerUserPerSection = context.TestSessions
-        .Where(ts => ts.IsPassed && ts.CompletedAt != null) 
+        .Where(ts => ts.CompletedAt != null) 
         .GroupBy(ts => new { ts.SectionId, ts.UserId })
         .Select(g => new
         {
