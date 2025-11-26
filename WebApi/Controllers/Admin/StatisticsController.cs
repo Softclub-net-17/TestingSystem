@@ -10,13 +10,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 namespace WebApi.Controllers.Admin;
 
 [ApiController]
-[Route("api/statistics")]
+[Route("api/admin/statistics")]
 [ApiExplorerSettings(GroupName = "admin")]
 [Authorize(Roles ="Admin")]
 
 public class StatisticsController(
     IQueryHandler<GetStatisticQuery, Result<GetStatisticDto>> queryHandler,
-    IQueryHandler<GetAvarageSectionStatisticQuery, Result<List<AvarageSectionStatisticDto>>> statisticSectionQueryHandler) : ControllerBase
+    IQueryHandler<GetAverageSectionStatisticQuery, Result<List<AvarageSectionStatisticDto>>> statisticSectionQueryHandler) : ControllerBase
 {
     [HttpGet]
     public async Task<IActionResult> GetAsync()
@@ -31,10 +31,10 @@ public class StatisticsController(
         return Ok(result);
     }
 
-    [HttpGet("section/avarage")]
+    [HttpGet("section/average")]
     public async Task<IActionResult> GetStatisticAsync()
     {
-        var result= await statisticSectionQueryHandler.HandleAsync(new GetAvarageSectionStatisticQuery());
+        var result= await statisticSectionQueryHandler.HandleAsync(new GetAverageSectionStatisticQuery());
         if (!result.IsSuccess)
         {
             return HandleError(result);
