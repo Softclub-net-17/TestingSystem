@@ -1,4 +1,5 @@
 using System;
+using System.Security.Claims;
 using Application.Auth.Commands;
 using Application.Common.Results;
 using Application.Interfaces;
@@ -11,8 +12,11 @@ namespace WebApi.Controllers.User;
 [ApiExplorerSettings(GroupName = "client")]
 
 
-public class AuthController(ICommandHandler<LoginCommand, Result<string>> loginCommandHandler,
-    ICommandHandler<RegisterCommand, Result<string>> registerCommandHandler):ControllerBase
+public class AuthController(
+    ICommandHandler<LoginCommand, Result<string>> loginCommandHandler,
+    ICommandHandler<RegisterCommand, Result<string>> registerCommandHandler,
+    ICommandHandler<ChangePasswordCommand, Result<string>> changePasswordCommandHandler)
+        : ControllerBase
 {
     [HttpPost("login")]
     public async Task<IActionResult> LoginAsync(LoginCommand command)
@@ -26,6 +30,25 @@ public class AuthController(ICommandHandler<LoginCommand, Result<string>> loginC
         
         return Ok(result.Data);
     }
+    
+    [HttpPost("change-password")]
+    public async Task<IActionResult> ChangePasswordAsync(ChangePasswordCommand command)
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (!int.TryParse(userIdClaim, out var userId))
+            return BadRequest(new { error = "Invalid userId in token" });
+
+        command.UserId = userId;
+
+        var result = await changePasswordCommandHandler.HandleAsync(command);
+
+        if (!result.IsSuccess)
+            return HandleError(result);
+
+        return Ok(new { message = "Password changed successfully" });
+    }
+
+
     
     [HttpPost("register")]
     public async Task<IActionResult> RegisterAsync(RegisterCommand command)

@@ -7,9 +7,9 @@ using Domain.Interfaces;
 
 namespace Application.Statistics.Handlers;
 
-public class GetAvarageSectionStatisticQueryHandler(ISectionRepository sectionRepository) : IQueryHandler<GetAvarageSectionStatisticQuery, Result<List<AvarageSectionStatisticDto>>>
+public class GetAverageSectionStatisticQueryHandler(ISectionRepository sectionRepository) : IQueryHandler<GetAverageSectionStatisticQuery, Result<List<AvarageSectionStatisticDto>>>
 {
-    public async Task<Result<List<AvarageSectionStatisticDto>>> HandleAsync(GetAvarageSectionStatisticQuery query)
+    public async Task<Result<List<AvarageSectionStatisticDto>>> HandleAsync(GetAverageSectionStatisticQuery query)
     {
         var result= await sectionRepository.GetSectionStatisticsAsync();
         return Result<List<AvarageSectionStatisticDto>>.Ok(result);

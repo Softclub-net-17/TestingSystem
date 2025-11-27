@@ -5,7 +5,7 @@ using Domain.DTOs;
 
 namespace Application.Statistics.Queries;
 
-public class GetAvarageSectionStatisticQuery:IQuery<Result<List<AvarageSectionStatisticDto>>>
+public class GetAverageSectionStatisticQuery:IQuery<Result<List<AvarageSectionStatisticDto>>>
 {
 
 }
