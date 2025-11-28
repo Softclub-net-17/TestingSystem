@@ -67,5 +67,9 @@ public class UserRepository(
         return result;
 
     }
+    public async Task<IEnumerable<User>> GetUsersByIdsAsync(List<int> ids)
+    {
+        return await context.Users.Where(user => ids.Any(id => id == user.Id)).ToListAsync();
+    }
 
 }
