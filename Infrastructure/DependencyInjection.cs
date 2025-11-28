@@ -1,8 +1,9 @@
 using System;
 using Application.Interfaces;
 using Domain.Interfaces;
-using Infrastructure.Auth;
 using Infrastructure.Persistences.Repositories;
+using Infrastructure.Services.Auth;
+using Infrastructure.Services.Email;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,7 +21,11 @@ public static class DependencyInjection
         services.AddScoped<IAnswerOptionRepository,AnswerOptionRepository>();
         services.AddScoped<ITestSessionRepository,TestSessionRepository>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+        services.AddScoped<IVerificationCodeRepository, VerificationCodeRepository>();
+        services.AddScoped<IEmailService, EmailService>();
         services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+        services.Configure<EmailSettings>(configuration.GetSection("SmtpSettings"));
+
     }
 }
 

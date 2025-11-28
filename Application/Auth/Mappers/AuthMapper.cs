@@ -19,4 +19,9 @@ public static class AuthMapper
             IsActive=true
         };
     }
+
+       public static void MapFrom(this User user, string passwordHash)
+    {
+        user.PasswordHash = passwordHash;
+    }
 }

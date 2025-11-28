@@ -8,6 +8,9 @@ using Application.Auth.Commands;
 using Application.Auth.Handlers;
 using Application.Auth.Validators;
 using Application.Common.Results;
+using Application.Email.Commands;
+using Application.Email.Handlers;
+using Application.Email.Validators;
 using Application.Interfaces;
 using Application.Questions.Commands;
 using Application.Questions.DTOs;
@@ -53,7 +56,11 @@ public static class DependencyInjection
         services.AddScoped<ICommandHandler<LoginCommand, Result<string>>, LoginCommandHandler>();
         services.AddScoped<ICommandHandler<RegisterCommand, Result<string>>, RegisterCommandHandler>();
         services.AddScoped<ICommandHandler<ChangePasswordCommand, Result<string>>, ChangePasswordCommandHandler>();
-
+        services.AddScoped<ICommandHandler<SendEmailCommand, Result<string>>, SendEmailCommandHandler>();
+        services.AddScoped<ICommandHandler<RequestResetPasswordCommand, Result<string>>, RequestResetPasswordCommandHandler>();
+        services.AddScoped<ICommandHandler<VerifyCodeCommand, Result<string>>, VerifyCodeCommandHandler>();
+        services.AddScoped<ICommandHandler<ResetPasswordCommand, Result<string>>, ResetPasswordCommandHandler>();
+        
         //User
         services.AddScoped<IQueryHandler<GetUsersQuery, PagedResult<List<GetUserDTO>>>,GetUsersQueryHandler>();
         services.AddScoped<IQueryHandler<GetUserByIdQuery,Result<GetUserDTO>>,GetUserByIdQueryHandler>();
@@ -110,7 +117,10 @@ public static class DependencyInjection
         services.AddScoped<IValidator<LoginCommand>, LoginValidator>();
         services.AddScoped<IValidator<RegisterCommand>, RegisterValidator>();
         services.AddScoped<IValidator<ChangePasswordCommand>, ChangePasswordValidator>();
-
+        services.AddScoped<IValidator<SendEmailCommand>, SendEmailValidator>();
+        services.AddScoped<IValidator<RequestResetPasswordCommand>, RequestResetPasswordValidator>();
+        services.AddScoped<IValidator<VerifyCodeCommand>, VerifyCodeCommandValidator>();
+        services.AddScoped<IValidator<ResetPasswordCommand>, ResetPasswordCommandValidator>();
         //User
         services.AddScoped<IValidator<UpdateUserCommand>, UpdateValidator>();
         

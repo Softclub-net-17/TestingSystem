@@ -13,4 +13,5 @@ public interface IUserRepository
     Task<List<User>> GetFilteredItemsAsync(UserFilter filter);
     Task<User?> GetByIdItemAsync(int id);
     Task<int> CountActiveItemsAsync();
+    Task<IEnumerable<User>> GetUsersByIdsAsync(List<int> receiverIds);
 }

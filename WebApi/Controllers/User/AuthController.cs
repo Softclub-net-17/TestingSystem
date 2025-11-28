@@ -15,7 +15,10 @@ namespace WebApi.Controllers.User;
 public class AuthController(
     ICommandHandler<LoginCommand, Result<string>> loginCommandHandler,
     ICommandHandler<RegisterCommand, Result<string>> registerCommandHandler,
-    ICommandHandler<ChangePasswordCommand, Result<string>> changePasswordCommandHandler)
+    ICommandHandler<ChangePasswordCommand, Result<string>> changePasswordCommandHandler,
+    ICommandHandler<RequestResetPasswordCommand, Result<string>> requestResetPasswordCommandHandler,
+    ICommandHandler<VerifyCodeCommand, Result<string>> verifyCodeCommandHandler,
+    ICommandHandler<ResetPasswordCommand, Result<string>> resetPasswordCommandHandler)
         : ControllerBase
 {
     [HttpPost("login")]
@@ -31,6 +34,7 @@ public class AuthController(
         return Ok(result.Data);
     }
     
+    [Authorize(Roles ="User")]
     [HttpPost("change-password")]
     public async Task<IActionResult> ChangePasswordAsync(ChangePasswordCommand command)
     {
@@ -54,6 +58,46 @@ public class AuthController(
     public async Task<IActionResult> RegisterAsync(RegisterCommand command)
     {
         var result = await registerCommandHandler.HandleAsync(command);
+
+        if (!result.IsSuccess)
+        {
+            return HandleError(result);
+        }
+        
+        return Ok(result.Message);
+    }
+    
+    [HttpPost("request-reset-password")]
+    public async Task<IActionResult> RequestResetPasswordAsync(RequestResetPasswordCommand command)
+    {
+        var result = await requestResetPasswordCommandHandler.HandleAsync(command);
+
+        if (!result.IsSuccess)
+        {
+            return HandleError(result);
+        }
+        
+        return Ok(result.Message);
+    }
+
+    [HttpPost("verify-code")]
+    public async Task<IActionResult> VerifyCodeAsync(VerifyCodeCommand command)
+    {
+        var result = await verifyCodeCommandHandler.HandleAsync(command);
+
+        if (!result.IsSuccess)
+        {
+            return HandleError(result);
+        }
+        
+        return Ok(result.Message);
+    }
+
+     
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPasswordAsync(ResetPasswordCommand command)
+    {
+        var result = await resetPasswordCommandHandler.HandleAsync(command);
 
         if (!result.IsSuccess)
         {

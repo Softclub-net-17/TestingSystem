@@ -1,6 +1,6 @@
 using System;
 
-namespace Infrastructure.Auth;
+namespace Infrastructure.Services.Auth;
 
 public class JwtSettings
 {
