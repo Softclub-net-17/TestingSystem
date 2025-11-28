@@ -12,6 +12,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<TestSession>TestSessions { get; set; }
     public DbSet<Topic> Topics { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<VerificationCode> VerificationCodes { get; set; }
+
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

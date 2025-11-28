@@ -7,7 +7,7 @@ using Domain.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Infrastructure.Auth;
+namespace Infrastructure.Services.Auth;
 
 
 public class JwtTokenGenerator(IOptions<JwtSettings> options) : IJwtTokenGenerator
