@@ -2,6 +2,7 @@ using Application;
 using Infrastructure;
 using Infrastructure.Persistences;
 using Infrastructure.Persistences.Seeds;
+using Microsoft.EntityFrameworkCore;
 using WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,7 +36,7 @@ try
 {
     await using var scope = app.Services.CreateAsyncScope();
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-
+    context.Database.Migrate();
     await DefaultUsers.SeedAsync(context);
 }
 catch (Exception e)
@@ -43,7 +44,7 @@ catch (Exception e)
     Console.WriteLine($"An error occurred while seeding the db: {e.Message}");
 }
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment()|| app.Environment.IsProduction())
 {
     app.MapOpenApi();
     app.UseSwagger();
