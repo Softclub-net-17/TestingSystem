@@ -1,6 +1,7 @@
 using System;
 using System.Security.Claims;
 using Application.Auth.Commands;
+using Application.Auth.DTOs;
 using Application.Common.Results;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -13,7 +14,7 @@ namespace WebApi.Controllers.User;
 
 
 public class AuthController(
-    ICommandHandler<LoginCommand, Result<string>> loginCommandHandler,
+    ICommandHandler<LoginCommand, Result<AuthResponseDto>> loginCommandHandler,
     ICommandHandler<RegisterCommand, Result<string>> registerCommandHandler,
     ICommandHandler<ChangePasswordCommand, Result<string>> changePasswordCommandHandler,
     ICommandHandler<RequestResetPasswordCommand, Result<string>> requestResetPasswordCommandHandler,
@@ -30,6 +31,14 @@ public class AuthController(
         {
             return HandleError(result);
         }
+        
+        Response.Cookies.Append("refreshToken", result.Data!.RefreshToken, new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.Strict,
+            Expires = DateTime.UtcNow.AddDays(7)
+        });
         
         return Ok(result.Data);
     }
