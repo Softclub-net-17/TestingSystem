@@ -17,6 +17,7 @@ builder.Services.AddAuthConfigurations(builder.Configuration);
 builder.Services.AddConnectionConfigurations(builder.Configuration);
 builder.Services.AddRepositories(builder.Configuration);
 builder.Services.AddApplicationServices();
+builder.WebHost.UseUrls("http://0.0.0.0:5048");
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>
