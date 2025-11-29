@@ -5,6 +5,7 @@ using Application.AnswerOption.Handlers;
 using Application.AnswerOption.Queries;
 using Application.AnswerOption.Validators;
 using Application.Auth.Commands;
+using Application.Auth.DTOs;
 using Application.Auth.Handlers;
 using Application.Auth.Validators;
 using Application.Common.Results;
@@ -53,13 +54,15 @@ public static class DependencyInjection
         // Register application services here
 
         //Auth
-        services.AddScoped<ICommandHandler<LoginCommand, Result<string>>, LoginCommandHandler>();
         services.AddScoped<ICommandHandler<RegisterCommand, Result<string>>, RegisterCommandHandler>();
         services.AddScoped<ICommandHandler<ChangePasswordCommand, Result<string>>, ChangePasswordCommandHandler>();
         services.AddScoped<ICommandHandler<SendEmailCommand, Result<string>>, SendEmailCommandHandler>();
         services.AddScoped<ICommandHandler<RequestResetPasswordCommand, Result<string>>, RequestResetPasswordCommandHandler>();
         services.AddScoped<ICommandHandler<VerifyCodeCommand, Result<string>>, VerifyCodeCommandHandler>();
         services.AddScoped<ICommandHandler<ResetPasswordCommand, Result<string>>, ResetPasswordCommandHandler>();
+        services.AddScoped<ICommandHandler<LoginCommand, Result<AuthResponseDto>>, LoginCommandHandler>();
+        services.AddScoped<ICommandHandler<RefreshTokenCommand, Result<AuthResponseDto>>, RefreshTokenCommandHandler>();
+
         
         //User
         services.AddScoped<IQueryHandler<GetUsersQuery, PagedResult<List<GetUserDTO>>>,GetUsersQueryHandler>();
@@ -121,6 +124,8 @@ public static class DependencyInjection
         services.AddScoped<IValidator<RequestResetPasswordCommand>, RequestResetPasswordValidator>();
         services.AddScoped<IValidator<VerifyCodeCommand>, VerifyCodeCommandValidator>();
         services.AddScoped<IValidator<ResetPasswordCommand>, ResetPasswordCommandValidator>();
+        services.AddScoped<IValidator<RefreshTokenCommand>, RefreshTokenValidator>();
+        
         //User
         services.AddScoped<IValidator<UpdateUserCommand>, UpdateValidator>();
         
