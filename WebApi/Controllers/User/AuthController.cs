@@ -19,7 +19,8 @@ public class AuthController(
     ICommandHandler<ChangePasswordCommand, Result<string>> changePasswordCommandHandler,
     ICommandHandler<RequestResetPasswordCommand, Result<string>> requestResetPasswordCommandHandler,
     ICommandHandler<VerifyCodeCommand, Result<string>> verifyCodeCommandHandler,
-    ICommandHandler<ResetPasswordCommand, Result<string>> resetPasswordCommandHandler)
+    ICommandHandler<ResetPasswordCommand, Result<string>> resetPasswordCommandHandler,
+    ICommandHandler<RefreshTokenCommand, Result<AuthResponseDto>> refreshTokenHandler)
         : ControllerBase
 {
     [HttpPost("login")]
@@ -35,7 +36,7 @@ public class AuthController(
         Response.Cookies.Append("refreshToken", result.Data!.RefreshToken, new CookieOptions
         {
             HttpOnly = true,
-            Secure = true,
+            Secure = false,
             SameSite = SameSiteMode.Strict,
             Expires = DateTime.UtcNow.AddDays(7)
         });
@@ -115,6 +116,42 @@ public class AuthController(
         
         return Ok(result.Message);
     }
+
+    [HttpPost("refresh")]
+    public async Task<IActionResult> RefreshAsync()
+    {
+        // 1. Достаём refresh‑token из cookie
+        var token = Request.Cookies["refreshToken"];
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            return Unauthorized(new { error = "Refresh token is missing." });
+        }
+
+        // 2. Создаём команду
+        var command = new RefreshTokenCommand(token);
+
+        // 3. Вызываем хендлер
+        var result = await refreshTokenHandler.HandleAsync(command);
+
+        // 4. Обрабатываем ошибку
+        if (!result.IsSuccess)
+        {
+            return HandleError(result);
+        }
+
+        // 5. Кладём новый refresh‑token в cookie
+        Response.Cookies.Append("refreshToken", result.Data!.RefreshToken, new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = false,
+            SameSite = SameSiteMode.Strict,
+            Expires = result.Data.ExpiresAt
+        });
+
+        // 6. Возвращаем новый access‑token
+        return Ok(new { accessToken = result.Data.AccessToken });
+    }
+
 
 
     private IActionResult HandleError<T>(Result<T> result)

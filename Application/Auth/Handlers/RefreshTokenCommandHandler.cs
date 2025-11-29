@@ -27,8 +27,14 @@ public class RefreshTokenCommandHandler(
 
         var storedToken = await refreshTokenRepository.FindByTokenAsync(command.Token);
 
-        if (storedToken is null || !storedToken.IsActive || storedToken.ExpiresAt < DateTime.UtcNow)
-            return Result<AuthResponseDto>.Fail("Invalid refresh token", ErrorType.Unauthorized);
+        if (storedToken is null)
+            return Result<AuthResponseDto>.Fail("Refresh token not found", ErrorType.Unauthorized);
+
+        if (!storedToken.IsActive)
+            return Result<AuthResponseDto>.Fail("Refresh token is not active", ErrorType.Unauthorized);
+
+        if (storedToken.ExpiresAt < DateTime.UtcNow)
+            return Result<AuthResponseDto>.Fail("Refresh token is expired", ErrorType.Unauthorized);
 
         var user = await userRepository.GetByIdItemAsync(storedToken.UserId);
         if (user is null)

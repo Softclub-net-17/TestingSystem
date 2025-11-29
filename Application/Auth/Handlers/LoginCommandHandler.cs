@@ -9,10 +9,12 @@ using Domain.Interfaces;
 
 namespace Application.Auth.Handlers;
 
-public class LoginCommandHandler(IUserRepository userRepository,
+public class LoginCommandHandler(
+IUserRepository userRepository,
 IValidator<LoginCommand> validator,
 IJwtTokenGenerator jwtTokenGenerator,
-IRefreshTokenRepository refreshTokenRepository
+IRefreshTokenRepository refreshTokenRepository,
+IUnitOfWork unitOfWork
 ) : ICommandHandler<LoginCommand, Result<AuthResponseDto>>
 {
     public async Task<Result<AuthResponseDto>> HandleAsync(LoginCommand command)
@@ -42,6 +44,8 @@ IRefreshTokenRepository refreshTokenRepository
         // Генерация refresh‑token
         var refreshToken = RefreshTokenGenerator.Generate(user.Id);
         await refreshTokenRepository.CreateAsync(refreshToken);
+
+        await unitOfWork.SaveChangesAsync();
 
         // Возвращаем DTO
         var response = new AuthResponseDto
