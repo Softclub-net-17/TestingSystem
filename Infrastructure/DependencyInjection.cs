@@ -23,6 +23,7 @@ public static class DependencyInjection
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<IVerificationCodeRepository, VerificationCodeRepository>();
         services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
         services.Configure<EmailSettings>(configuration.GetSection("SmtpSettings"));
 

@@ -13,6 +13,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Topic> Topics { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<VerificationCode> VerificationCodes { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
 
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
