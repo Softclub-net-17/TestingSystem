@@ -14,13 +14,13 @@ public class RefreshTokenRepository(ApplicationDbContext context) : IRefreshToke
     public async Task<RefreshToken?> FindByTokenAsync(string token)
     {
         return await context.RefreshTokens
-            .FirstOrDefaultAsync(rt => rt.Token == token && rt.IsActive);
+            .FirstOrDefaultAsync(rt => rt.Token == token);
     }
 
     public async Task<IEnumerable<RefreshToken>> FindByUserIdAsync(int userId)
     {
         return await context.RefreshTokens
-            .Where(rt => rt.UserId == userId && rt.IsActive)
+            .Where(rt => rt.UserId == userId)
             .ToListAsync();
     }
 

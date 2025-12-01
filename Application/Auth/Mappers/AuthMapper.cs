@@ -31,8 +31,7 @@ public static class AuthMapper
         return new AuthResponseDto
         {
             AccessToken = accessToken,
-            RefreshToken = refreshToken.Token,
-            ExpiresAt = refreshToken.ExpiresAt
+            RefreshToken = refreshToken.Token
         };
     }
 }

@@ -51,8 +51,7 @@ IUnitOfWork unitOfWork
         var response = new AuthResponseDto
         {
             AccessToken = accessToken,
-            RefreshToken = refreshToken.Token,
-            ExpiresAt = refreshToken.ExpiresAt
+            RefreshToken = refreshToken.Token
         };
 
         return Result<AuthResponseDto>.Ok(response, "Login successful.");

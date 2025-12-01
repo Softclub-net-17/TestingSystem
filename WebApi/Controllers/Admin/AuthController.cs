@@ -30,7 +30,7 @@ public class AuthController(
         Response.Cookies.Append("refreshToken", result.Data!.RefreshToken, new CookieOptions
         {
             HttpOnly = true,
-            Secure = true,
+            Secure = false,
             SameSite = SameSiteMode.Strict,
             Expires = DateTime.UtcNow.AddDays(7)
         });
@@ -61,16 +61,16 @@ public class AuthController(
         }
 
         // 5. Кладём новый refresh‑token в cookie
-        Response.Cookies.Append("refreshToken", result.Data!.RefreshToken, new CookieOptions
+        Response.Cookies.Append("refreshToken", command.Token, new CookieOptions
         {
             HttpOnly = true,
-            Secure = true,
+            Secure = false,
             SameSite = SameSiteMode.Strict,
-            Expires = result.Data.ExpiresAt
+            Expires = DateTime.UtcNow.AddDays(7)
         });
 
         // 6. Возвращаем новый access‑token
-        return Ok(new { accessToken = result.Data.AccessToken });
+        return Ok(new { accessToken = result.Data!.AccessToken });
     }
 
     
