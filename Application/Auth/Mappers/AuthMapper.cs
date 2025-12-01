@@ -1,5 +1,6 @@
 using System;
 using Application.Auth.Commands;
+using Application.Auth.DTOs;
 using Domain.Entities;
 using Domain.Enums;
 
@@ -20,8 +21,17 @@ public static class AuthMapper
         };
     }
 
-       public static void MapFrom(this User user, string passwordHash)
+    public static void MapFrom(this User user, string passwordHash)
     {
         user.PasswordHash = passwordHash;
+    }
+    
+    public static AuthResponseDto ToDto(string accessToken, RefreshToken refreshToken)
+    {
+        return new AuthResponseDto
+        {
+            AccessToken = accessToken,
+            RefreshToken = refreshToken.Token
+        };
     }
 }
