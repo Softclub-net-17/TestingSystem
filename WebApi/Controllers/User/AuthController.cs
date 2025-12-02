@@ -18,7 +18,9 @@ public class AuthController(
     ICommandHandler<ChangePasswordCommand, Result<string>> changePasswordCommandHandler,
     ICommandHandler<RequestResetPasswordCommand, Result<string>> requestResetPasswordCommandHandler,
     ICommandHandler<VerifyCodeCommand, Result<string>> verifyCodeCommandHandler,
-    ICommandHandler<ResetPasswordCommand, Result<string>> resetPasswordCommandHandler)
+    ICommandHandler<ResetPasswordCommand, Result<string>> resetPasswordCommandHandler,
+    ICommandHandler<ChangeEmailCommand, Result<string>> changeEmailCommandHandler,
+    ICommandHandler<RequestChangeEmailCommand, Result<string>> requestChngeEmailCommandHandler)
         : ControllerBase
 {
     [HttpPost("login")]
@@ -106,6 +108,45 @@ public class AuthController(
         
         return Ok(result.Message);
     }
+
+    [Authorize(Roles ="User")]
+    [HttpPost("change-email")]
+    public async Task<IActionResult> ResetEmailAsync(ChangeEmailCommand command)
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (!int.TryParse(userIdClaim, out var userId))
+            return BadRequest(new { error = "Invalid userId in token" });
+        command.UserId=userId;
+        var result = await changeEmailCommandHandler.HandleAsync(command);
+
+        if (!result.IsSuccess)
+        {
+            return HandleError(result);
+        }
+        
+        return Ok(result.Message);
+    }
+    [Authorize(Roles ="User")]
+    [HttpPost("request-change-email")]
+    public async Task<IActionResult> RequestChangeEmailAsync(RequestChangeEmailCommand command)
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (!int.TryParse(userIdClaim, out var userId))
+            return BadRequest(new { error = "Invalid userId in token" });
+        command.UserId=userId;
+        var result = await requestChngeEmailCommandHandler.HandleAsync(command);
+
+        if (!result.IsSuccess)
+        {
+            return HandleError(result);
+        }
+        
+        return Ok(result.Message);
+
+    }
+
+
+
 
 
     private IActionResult HandleError<T>(Result<T> result)

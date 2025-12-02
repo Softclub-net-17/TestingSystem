@@ -60,6 +60,8 @@ public static class DependencyInjection
         services.AddScoped<ICommandHandler<RequestResetPasswordCommand, Result<string>>, RequestResetPasswordCommandHandler>();
         services.AddScoped<ICommandHandler<VerifyCodeCommand, Result<string>>, VerifyCodeCommandHandler>();
         services.AddScoped<ICommandHandler<ResetPasswordCommand, Result<string>>, ResetPasswordCommandHandler>();
+        services.AddScoped<ICommandHandler<ChangeEmailCommand, Result<string>>, ChangeEmailCommandHandler>();
+        services.AddScoped<ICommandHandler<RequestChangeEmailCommand, Result<string>>, RequestChangeEmailCommandHandler>();
         
         //User
         services.AddScoped<IQueryHandler<GetUsersQuery, PagedResult<List<GetUserDTO>>>,GetUsersQueryHandler>();
@@ -121,6 +123,8 @@ public static class DependencyInjection
         services.AddScoped<IValidator<RequestResetPasswordCommand>, RequestResetPasswordValidator>();
         services.AddScoped<IValidator<VerifyCodeCommand>, VerifyCodeCommandValidator>();
         services.AddScoped<IValidator<ResetPasswordCommand>, ResetPasswordCommandValidator>();
+        services.AddScoped<IValidator<ChangeEmailCommand>, ChangeEmailValidator>();
+        services.AddScoped<IValidator<RequestChangeEmailCommand>, RequestChangeEmailValidator>();
         //User
         services.AddScoped<IValidator<UpdateUserCommand>, UpdateValidator>();
         
