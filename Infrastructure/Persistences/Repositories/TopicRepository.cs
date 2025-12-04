@@ -20,10 +20,9 @@ public class TopicRepository(ApplicationDbContext context) : ITopicRepository
         
     }
 
-    public async Task<Topic?> GetItemByNameAsync(string name)
+    public async Task<Topic?> GetItemByNameAsync(string name, int sectionId)
     {
-        return await context.Topics.FirstOrDefaultAsync(s=>s.Title.ToLower()==name.Trim().ToLower());
-        
+         return await context.Topics.FirstOrDefaultAsync(s =>EF.Functions.ILike(s.Title, name.Trim()) && s.SectionId == sectionId);
     }
 
     public async Task<(List<Topic> Items, int TotalCount)> GetItemsAsync(TopicFilter filter)

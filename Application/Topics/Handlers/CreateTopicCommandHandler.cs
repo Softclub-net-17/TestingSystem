@@ -26,7 +26,7 @@ public class CreateTopicCommandHandler(
         if(sectionExists==null)
             return Result<string>.Fail($"Section with given id : {command.SectionId} doesnt exist");
         
-        var exists= await topicRepository.GetItemByNameAsync(command.Title);
+        var exists= await topicRepository.GetItemByNameAsync(command.Title, command.SectionId);
         if(exists!=null)
             return Result<string>.Fail("This topic is already exists",ErrorType.Conflict);
             

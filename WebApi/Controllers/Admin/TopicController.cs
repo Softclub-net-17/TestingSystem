@@ -47,7 +47,7 @@ IQueryHandler<GetTopicByIdQuery, Result<GetTopicDto>> getByIdQyeryHandler
 
         return Ok(result.Data);
     }
-    [HttpGet("/by-sectionId-{id:int}")]
+    [HttpGet("by-sectionId/{id:int}")]
     public async Task<IActionResult> GetItemBySectionIdAsync(int id)
     {
         var result = await getBySectionIdQueryHandler.HandleAsync(new GetTopicsBySectionIdQuery(id));
