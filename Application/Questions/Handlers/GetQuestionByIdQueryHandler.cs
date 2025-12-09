@@ -8,7 +8,7 @@ using Domain.Interfaces;
 namespace Application.Questions.Handlers;
 
 public class GetQuestionByIdQueryHandler(IQuestionRepository questionRepository)
-    : IQueryHandler<GetQuestionByIdQuery, Result<GetQuestionDto>>, IQuery<Result<GetQuestionDto>>
+    : IQueryHandler<GetQuestionByIdQuery, Result<GetQuestionDto>>
 {
     public async Task<Result<GetQuestionDto>> HandleAsync(GetQuestionByIdQuery query)
     {

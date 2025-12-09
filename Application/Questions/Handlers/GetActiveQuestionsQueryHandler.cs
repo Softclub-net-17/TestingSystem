@@ -9,7 +9,7 @@ using Domain.Interfaces;
 namespace Application.Questions.Handlers;
 
 public class GetActiveQuestionsQueryHandler(IQuestionRepository questionRepository)
-    : IQueryHandler<GetActiveQuestionsQuery, Result<List<GetActiveQuestionsDto>>>, IQuery<Result<List<GetQuestionDto>>>
+    : IQueryHandler<GetActiveQuestionsQuery, Result<List<GetActiveQuestionsDto>>>
 {
     public async Task<Result<List<GetActiveQuestionsDto>>> HandleAsync(GetActiveQuestionsQuery query)
     {
